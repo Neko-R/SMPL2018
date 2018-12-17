@@ -1,0 +1,21 @@
+
+
+def ones mkStream(1, ones);    
+
+def ints mkStream(1, addStreams(ones, ints));
+
+def sieve proc(str)
+    let (p = head(str)) {
+        mkStream(p, sieve(filterStream(proc(v) v % p > 0, str)))
+    };
+
+def filterStream proc(pred, str)
+   if str = emptyStream
+   then emptyStream
+   else if pred(head(str))
+        then mkStream(head(str), filterStream(pred, tail(str)))
+	else filterStream(pred, tail(str));
+
+def primes sieve(tail(ints));
+
+streamPrefix(primes, 10)

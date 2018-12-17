@@ -1,0 +1,32 @@
+** ID: 620100200
+
+Processing ../examples/fib.smpl...
+> Input: def fib proc(n)   if n < 2   then n   else fib(n - 1) + fib(n - 2);fib(31)
+Result: 1346269
+fib(31) took 0.76 seconds.
+
+** Hence the largest input value of n for which fib(n) can be computed under 1 second is 31.
+ 
+Processing ../examples/fact.smpl...
+> Input: def fact proc(n)   if n = 0   then 1   else n * fact(n - 1);fact(12)
+Result: 479001600
+
+Processing ../examples/fact.smpl...
+> Input: def fact proc(n)   if n = 0   then 1   else n * fact(n - 1);fact(13)
+Result: 1932053504
+
+** Hence the largest input that I can feed my implementation before I get incorrect answers is 12; since my implementation gave the wrong answer for 13 (the answer should've been 6227020800).
+ 
+  
+** Testing of Infinite Streams for Pairs and List option
+Processing ../examples/streams.smpl...
+> Input: def mkStream proc(h, lazy t) pair(h, proc() t);def head proc(str)    car(str);def tail proc(str)    cdr(str)();def emptyStream #e;def addStreams proc(str1, str2)     if str1 = #e then       #e    else       if str2 = #e then 	  #e       else	  mkStream(head(str1) + head(str2),		   addStreams(tail(str1), tail(str2)));def streamPrefix proc(stream, n)    if n = 0    then #e    else pair(head(stream), streamPrefix(tail(stream), n - 1));streamPrefix
+Result: proc(stream, n) {if (n = 0) then (#e) else (pair(head(stream), streamPrefix(tail(stream), n - 1))) }
+
+Processing ../examples/intStreams.smpl...
+> Input: def ones mkStream(1, ones); def ints mkStream(1, addStreams(ones, ints));streamPrefix(ints, 10)
+Result: <1, <2, <3, <4, <5, <6, <7, <8, <9, <10, #e>>>>>>>>>>
+
+Processing ../examples/primeStreams.smpl...
+> Input: def ones mkStream(1, ones);    def ints mkStream(1, addStreams(ones, ints));def sieve proc(str)    let (p = head(str)) {        mkStream(p, sieve(filterStream(proc(v) v % p > 0, str)))    };def filterStream proc(pred, str)   if str = emptyStream   then emptyStream   else if pred(head(str))        then mkStream(head(str), filterStream(pred, tail(str)))	else filterStream(pred, tail(str));def primes sieve(tail(ints));streamPrefix(primes, 10)
+Result: <2, <3, <5, <7, <11, <13, <17, <19, <23, <29, #e>>>>>>>>>>

@@ -1,0 +1,11 @@
+#!/bin/sh
+cd ./src;
+cd ./smpl/syntax;
+echo $(pwd);
+jflex SMPL_Lexer.jflex;
+cup -parser SmplParser SMPL_Parser.cup;
+cd ../;
+cd ../;
+echo $(pwd);
+javac -classpath ".:/usr/share/java/cup.jar:./lib/cs34q-utils.jar" smpl/*/*.java;
+java -classpath ".:/usr/share/java/cup.jar:./lib/cs34q-utils.jar" smpl/sys/SmplRepl;

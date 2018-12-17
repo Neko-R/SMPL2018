@@ -1,0 +1,6 @@
+
+def ones mkStream(1, ones); 
+
+def ints mkStream(1, addStreams(ones, ints));
+
+streamPrefix(ints, 10)
