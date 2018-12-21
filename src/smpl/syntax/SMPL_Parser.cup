@@ -2,6 +2,7 @@ package smpl.syntax;
 import smpl.semantics.*;
 import smpl.values.*;
 import smpl.syntax.IRExpProc.*;
+import smpl.builtIn_necessities.*;
 
 import java_cup.runtime.*;
 import java.io.*;
@@ -53,8 +54,8 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-terminal LPAREN, RPAREN, SEMI, COMMA, DOT;// COLN;
-terminal LBRACE, RBRACE;//, LBRAK, RBRAK;
+terminal LPAREN, RPAREN, SEMI, COMMA, DOT, COLN;
+terminal LBRACE, RBRACE, LBRAK, RBRAK, LVEC, RVEC;
 
 // arithmetic operators
 terminal PLUS, MINUS, MUL, DIV, MOD, EXPT, ASSIGN;
@@ -107,6 +108,9 @@ non terminal StmtDef defStmt;
 
 non terminal IRExpIf ifExp;
 
+non terminal ArrayList<Specification> specLst;
+non terminal Specification spec;
+
 non terminal IRExpProc procExp;
 non terminal ParamLst paramList, paramListNE;
 non terminal IRExp callProc;
@@ -124,6 +128,7 @@ non terminal IRExp arithExp;
 non terminal IRExp term;
 non terminal IRExp factor;
 non terminal IRExp exponent;
+non terminal IRExp unique;
 non terminal empty;
 
 non terminal IRExp relatExp, bitWiseExp, negat;
@@ -236,10 +241,18 @@ factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
 	   LPAREN expression:e RPAREN {: RESULT = e; :} |
 	   callProc:call {: RESULT = call; :};
 
+unique ::= LVEC specLst:slst RVEC {: RESULT = new IRExpVector(slst); :}|
+            factor:v LBRAK expression:e RBRAK {: RESULT = :};
+
 callProc ::=  CALL LPAREN factor:f COMMA factor:alst RPAREN {: RESULT = new IRExpProcCallFull(f, alst); :}|
-                //CALL LPAREN VARIABLE:f COMMA VARIABLE:i RPAREN {: RESULT = new IRExpProcCall(f,i); :}|
-                factor:f LPAREN argList:alst RPAREN {: RESULT = new IRExpProcCallShort(f,alst); :};//|
-                 //VARIABLE:f LPAREN VARIABLE:i RPAREN {: RESULT = new IRExpProcCall(f,i); :};
+                factor:f LPAREN argList:alst RPAREN {: RESULT = new IRExpProcCallShort(f,alst); :}|
+                LBRAK argList:alst RBRAK {: RESULT = new IRExpProcCallShort(new IRExpVar("list"), alst); :};
+
+specLst ::= specLst:slst COMMA spec:sp {: slst.add(sp); RESULT = slst; :}|
+            spec:sp {: ArrayList<Specification> lst = new ArrayList<>(); lst.add(sp); RESULT = lst; :};
+
+spec ::= expression:e COLN procExp:p {: RESULT = new Specification(e,p); :}|
+            expression:e {:  RESULT = new Specification(e); :};
 /*
 lstArgs ::= lstArgs:lstargs LPAREN argList:alst RPAREN {: lstargs.add(alst); RESULT = lstargs ; :}|
             LPAREN argList:alst RPAREN {: ArrayList<ArgList> lst = new ArrayList<>(); lst.add(alst); RESULT = lst;:};*/

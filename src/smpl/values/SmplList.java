@@ -19,11 +19,13 @@ public class SmplList extends SmplObj {
 
     public SmplList(ArrayList<SmplObj> args){
         this();
-        this.list = new SmplPair(args.get( args.size() - 1), SmplObj.NIL);
-        for (int i = args.size() - 2; i >= 0; i--) {
-            this.list = new SmplPair(args.get(i),this.list);
+        if(args.size() != 0) {
+            this.list = new SmplPair(args.get(args.size() - 1), SmplObj.NIL);
+            for (int i = args.size() - 2; i >= 0; i--) {
+                this.list = new SmplPair(args.get(i), this.list);
+            }
+            this.array = args;
         }
-        this.array = args;
     }
 
     public SmplPair getList() {
@@ -45,15 +47,17 @@ public class SmplList extends SmplObj {
     @Override
     public String toString() {
         SmplPair next = list;
-        String result = "";
-        while (next.isPair()) {
-            result = result + next.first().toString();
-            if(next.second.isPair()) {
-                result += ", ";
-                next = (SmplPair) next.second();
-            }else
-                break;
+        String result = "[";
+        if(list != null) {
+            while (next.isPair()) {
+                result = result + next.first().toString();
+                if (next.second.isPair()) {
+                    result += ", ";
+                    next = (SmplPair) next.second();
+                } else
+                    break;
+            }
         }
-        return result;
+        return result + "]";
     }
 }

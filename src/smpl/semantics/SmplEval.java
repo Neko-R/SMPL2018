@@ -402,10 +402,11 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         }else{
             Parameter p = params.get(0);
             ArrayList<SmplObj> temp = new ArrayList<>();
-            for (IRExp exp: arglst) {
-                temp.add(exp.visit(this,args));
+            if(arglst.get(0) != null  ) {
+                for (IRExp exp : arglst) {
+                    temp.add(exp.visit(this, args));
+                }
             }
-
             env.put(p.getId(),new SmplList(temp));
         }
 
@@ -531,5 +532,40 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         SmplObj list = arg.get(exp.getParameter());
 
         return list;
+    }
+
+    @Override
+    public SmplObj visitIRExpVector(IRExpVector exp, Environment<SmplObj> args) throws SmplException{
+        ArrayList<Specification> slst = exp.getSpecLst();
+    
+        ArrayList<SmplObj> objs = new ArrayList<>();
+        for (Specification spec: slst) {
+            SmplObj obj = spec.visit(this, args);
+            if(obj instanceof SmplList){
+                for (SmplObj o: ((SmplList)obj).getArray()) {
+                    objs.add(o);
+                }
+            }else
+                objs.add(obj);
+        }
+        return new SmplVector(objs);
+    }
+
+    @Override
+    public SmplObj visitSpecification(Specification spec, Environment<SmplObj> args) throws SmplException{
+
+        if (spec.getProc() == null)
+            return spec.getExp().visit(this, args);
+        else{
+            StmtDef func = new StmtDef("spec",spec.getProc());
+            func.visit(this, args);
+            SmplInt size = (SmplInt) spec.getExp().visit(this, args);
+            ArrayList<SmplObj> objs = new ArrayList<>();
+            for(int i = 0; i<size.value(); i++){
+                IRExpProcCallShort call = new IRExpProcCallShort(new IRExpVar("spec"), new ArrayList<>( Arrays.asList(new IRExpLit(i)) ) );
+                objs.add(call.visit(this, args));
+            }
+            return new SmplList(objs);
+        }
     }
 }

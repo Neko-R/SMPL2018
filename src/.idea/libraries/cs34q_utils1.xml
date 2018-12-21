@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cs34q-utils1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/lptest/lib/cs34q-utils.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

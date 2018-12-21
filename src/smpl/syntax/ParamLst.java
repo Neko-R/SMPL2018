@@ -32,15 +32,15 @@ public class ParamLst{
     public String toString() {
         Iterator<Parameter> iter = paramLst.iterator();
 
-	String result = "";
-	while (iter.hasNext()) {
-	    result = result + iter.next().toString();
-	    if(iter.hasNext()){
-	        result += ", ";
+        String result = "";
+        while (iter.hasNext()) {
+            result = result + iter.next().toString();
+            if(iter.hasNext()){
+                result += ", ";
+            }
         }
-	}
 
-	return result;
+	    return result;
     }
 
 }

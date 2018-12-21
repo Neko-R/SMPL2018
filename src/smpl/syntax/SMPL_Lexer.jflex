@@ -102,16 +102,16 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 <YYINITIAL>	"("	{return new Symbol(sym.LPAREN);}
 <YYINITIAL>	")"	{return new Symbol(sym.RPAREN);}
 
-//<YYINITIAL>	"["	{return new Symbol(sym.LBRAK);}
-//<YYINITIAL>	"]"	{return new Symbol(sym.RBRAK);}
+<YYINITIAL>	"["	{return new Symbol(sym.LBRAK);}
+<YYINITIAL>	"]"	{return new Symbol(sym.RBRAK);}
 
 <YYINITIAL>	"{"	{return new Symbol(sym.LBRACE);}
 <YYINITIAL>	"}"	{return new Symbol(sym.RBRACE);}
 
-//<YYINITIAL>	":"	{return new Symbol(sym.COLN);}
+<YYINITIAL>	":"	{return new Symbol(sym.COLN);}
 
-//<YYINITIAL>	"[:"	{return new Symbol(sym.LVERT);}
-//<YYINITIAL>	":]"	{return new Symbol(sym.RVERT);}
+<YYINITIAL>	"[:"	{return new Symbol(sym.LVEC);}
+<YYINITIAL>	":]"	{return new Symbol(sym.RVEC);}
 
 
 <YYINITIAL>	","	{return new Symbol(sym.COMMA);}
@@ -148,7 +148,6 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 <YYINITIAL>   \"([ -~]|\n|\t)+\" {return new Symbol(sym.STRING, yytext());}
 
 <YYINITIAL>   '([ -~]|\\n|\\t)'|#u{num}{4} {return new Symbol(sym.CHARACTER, yytext());}
-//<YYINITIAL>   '([ -~]|\\n|\\t)'|#u{num}{4} {return new Symbol(sym.CHARACTER, new Character(yytext().charAt(0)));}
 
 <YYINITIAL>   "#t"  {return new Symbol(sym.TRU, yytext());}
 

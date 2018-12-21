@@ -181,4 +181,8 @@ public interface Visitor<S, T> {
 
     public T visitIRExpCreateList(IRExpCreateList exp, S state) throws SmplException;
 
+    public T visitIRExpVector(IRExpVector exp, S state) throws SmplException;
+
+    public T visitSpecification(Specification exp, S state) throws SmplException;
+
 }
