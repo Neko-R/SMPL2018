@@ -2,32 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf990192-d879-40dc-8fc4-66ab9613edf8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/smpl/builtIn_necessities/IRExpEquivalent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/semantics/Environment.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/Environment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/semantics/Environment.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/Environment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/semantics/SmplEval.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/SmplEval.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/smpl/semantics/SmplEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/SmplEval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/semantics/Visitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/Visitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/semantics/Visitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/Visitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/CUP$SmplParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/CUP$SmplParser$actions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpLit.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpLit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpLit.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpLit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/StmtDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/StmtDefinition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/StmtDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/StmtDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/syntax/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/sym.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplNil.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplNil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplNil.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplNil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplPair.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplPair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplVector.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplVector.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smpl/values/SmplVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplVector.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,14 +36,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cup" value="765" />
-          <entry key="java" value="2489" />
+          <entry key="java" value="2543" />
           <entry key="jflex" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Cup file" value="765" />
-          <entry key="JAVA" value="2489" />
+          <entry key="JAVA" value="2543" />
           <entry key="PLAIN_TEXT" value="12" />
         </counts>
       </usages-collector>
@@ -79,23 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/smpl/semantics/SmplEval.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="814">
-              <caret line="615" column="53" selection-start-line="615" selection-start-column="53" selection-end-line="615" selection-end-column="53" />
-              <folding>
-                <element signature="e#19655#19656#0" expanded="true" />
-                <element signature="e#19682#19683#0" expanded="true" />
-                <element signature="e#19776#19777#0" expanded="true" />
-                <element signature="e#19803#19804#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpLit.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
+            <state relative-caret-position="649">
+              <caret line="604" column="17" lean-forward="true" selection-start-line="604" selection-start-column="17" selection-end-line="604" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -123,19 +83,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="541">
               <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smpl/builtIn_necessities/IRExpSubStr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-              <folding>
-                <element signature="e#658#659#0" expanded="true" />
-                <element signature="e#712#713#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -245,7 +192,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545591899317" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545592201778" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -456,28 +403,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/semantics/Environment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/smpl/semantics/Visitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="664">
           <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/builtIn_necessities/IRExpSubStr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding>
-            <element signature="e#658#659#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -502,16 +431,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/builtIn_necessities/IRExpSubStr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding>
+            <element signature="e#658#659#0" expanded="true" />
+            <element signature="e#712#713#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/semantics/Environment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/smpl/semantics/SmplEval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="615" column="53" selection-start-line="615" selection-start-column="53" selection-end-line="615" selection-end-column="53" />
-          <folding>
-            <element signature="e#19655#19656#0" expanded="true" />
-            <element signature="e#19682#19683#0" expanded="true" />
-            <element signature="e#19776#19777#0" expanded="true" />
-            <element signature="e#19803#19804#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="649">
+          <caret line="604" column="17" lean-forward="true" selection-start-line="604" selection-start-column="17" selection-end-line="604" selection-end-column="17" />
         </state>
       </provider>
     </entry>

@@ -593,13 +593,17 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     }
 
     @Override
-    public SmplObj visitIRExpEquivalent(IRExpEquivalent exp, Environment<SmplObj> arg) {
-        return null;
+    public SmplObj visitIRExpEquivalent(IRExpEquivalent exp, Environment<SmplObj> arg) throws SmplException{
+        SmplObj e1 = arg.get(exp.getE1());
+        SmplObj e2 = arg.get(exp.getE2());
+        return e1.eq(e2);
     }
 
     @Override
-    public SmplObj visitIRExpEqual(IRExpEqual exp, Environment<SmplObj> arg) {
-        return null;
+    public SmplObj visitIRExpEqual(IRExpEqual exp, Environment<SmplObj> arg) throws SmplException{
+        SmplObj e1 = arg.get(exp.getE1());
+        SmplObj e2 = arg.get(exp.getE2());
+        return SmplBool.getConst(e1.equals(e2));
     }
 
     @Override
