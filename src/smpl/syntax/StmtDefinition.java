@@ -9,7 +9,7 @@ import smpl.sys.SmplException;
  */
 public class StmtDefinition extends Statement {
 
-    String var;
+    IRExp var;
     IRExp exp;
 
     /**
@@ -17,12 +17,12 @@ public class StmtDefinition extends Statement {
      * @param id The variable being defined
      * @param e The expression producing its value
      */
-    public StmtDefinition(String id, IRExp e) {
+    public StmtDefinition(IRExp id, IRExp e) {
 	var = id;
 	exp = e;
     }
 
-    public String getVar(){
+    public IRExp getVar(){
 	return var;
     }
 
@@ -38,6 +38,6 @@ public class StmtDefinition extends Statement {
 
     @Override
     public String toString() {
-        return String.format("%s = %s", var, exp);
+        return String.format("%s = %s", var.toString(), exp);
     }
 }

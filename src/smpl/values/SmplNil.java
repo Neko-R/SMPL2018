@@ -1,6 +1,8 @@
 package smpl.values;
 
-/** 
+import smpl.sys.SmplException;
+
+/**
  * SMPL representation for the empty list 
  **/
 public class SmplNil extends SmplObj {
@@ -35,5 +37,13 @@ public class SmplNil extends SmplObj {
             return value == ((SmplNil) arg).getValue();
         }else
             return false;
+    }
+
+    @Override
+    public SmplObj eq(SmplObj arg) throws SmplException {
+        if (arg instanceof SmplNil){
+            return SmplBool.getConst(value == ((SmplNil) arg).getValue());
+        }else
+            return SmplBool.getConst(false);
     }
 }

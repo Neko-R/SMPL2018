@@ -37,7 +37,7 @@ public class IRExpLit extends IRExp {
     }
 
     public IRExpLit(String s) {
-        val = new SmplString(s);
+        val = new SmplString(s.substring(1,s.length()-1));
     }
 
     public IRExpLit(String i, String v) {

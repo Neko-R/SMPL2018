@@ -40,6 +40,19 @@ public class SmplPair extends SmplObj {
 
     @Override
     public String toString() {
-        return "<" + first + ", " + second + ">";
+        if(second.isPair()){
+            SmplPair next = (SmplPair) second;
+            String result = "[" + first + ",";
+            while (next.isPair()) {
+                result = result + next.first().toString();
+                if (next.second.isPair()) {
+                    result += ", ";
+                    next = (SmplPair) next.second();
+                } else
+                    break;
+            }
+            return result + "]";
+        }else
+            return first + " . " + second;
     }
 }

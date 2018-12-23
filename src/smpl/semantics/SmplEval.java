@@ -84,15 +84,21 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         return result;
     }
 
-    public SmplObj visitStmtDefinition(StmtDefinition sd,
-				      Environment<SmplObj> arg)
-	throws SmplException
-    {
-	Environment<SmplObj> env = (Environment<SmplObj>) arg;
-	SmplObj result;
-	result = sd.getExp().visit(this, env);
-	env.put(sd.getVar(), result);
-	return result;
+    public SmplObj visitStmtDefinition(StmtDefinition sd, Environment<SmplObj> arg) throws SmplException {
+        Environment<SmplObj> env = (Environment<SmplObj>) arg;
+        SmplObj result;
+        result = sd.getExp().visit(this, env);
+        IRExp var = sd.getVar();
+        if(var instanceof IRExpVar)
+            env.put(((IRExpVar)var).getVar(), result);
+        else if(var instanceof IRExpGetIndex){
+            SmplObj vector = ((IRExpGetIndex)var).getVector().visit(this, arg);
+            SmplObj n = ((IRExpGetIndex)var).getN().visit(this, arg);
+            ((SmplVector) vector).getArray().remove(((SmplInt)n).value());
+            ((SmplVector) vector).getArray().add((((SmplInt)n).value()), result);
+        }
+
+        return result;
     }
 
     @Override
@@ -385,18 +391,15 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
                 env.put(p.getId(),val);
             }
             if(i < arglst.size() - 1){
-                SmplObj prest = arglst.get(arglst.size() - 1).visit(this, args);
                 String id = params.get(params.size() - 1).getId();
-                Environment<SmplObj> newEnv = args.extend(id, prest);
 
                 ArrayList<SmplObj> temp = new ArrayList<>();
-                for (IRExp exp: arglst.subList(i,arglst.size() - 1)) {
+                for (IRExp exp: arglst.subList(i,arglst.size())) {
                     temp.add(exp.visit(this,args));
                 }
-                IRExp list = new IRExpLit(new SmplList(temp));
-                IRExpProcCallFull prestCall = new IRExpProcCallFull(new IRExpVar(id), list);
+                SmplList list = new SmplList(temp);
 
-                env.put(id,prestCall.visit(this,newEnv));
+                env.put(id,list);
             }
 
         }else{
@@ -462,18 +465,15 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
                 env.put(p.getId(),val);
             }
             if(i < arglst.size() - 1){
-                SmplObj prest = arglst.get(arglst.size() - 1);
                 String id = params.get(params.size() - 1).getId();
-                Environment<SmplObj> newEnv = args.extend(id, prest);
 
                 ArrayList<SmplObj> temp = new ArrayList<>();
-                for (SmplObj obj: arglst.subList(i,arglst.size() - 1)) {
+                for (SmplObj obj: arglst.subList(i,arglst.size())) {
                     temp.add(obj);
                 }
-                IRExp list = new IRExpLit(new SmplList(temp));
-                IRExpProcCallFull prestCall = new IRExpProcCallFull(new IRExpVar(id), list);
+                SmplList list = new SmplList(temp);
 
-                env.put(id,prestCall.visit(this,newEnv));
+                env.put(id,list);
             }
 
         }else{
@@ -509,15 +509,24 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     @Override
     public SmplObj visitIRExpCar(IRExpCar car, Environment<SmplObj> arg) throws SmplException {
         SmplObj pair = arg.get(car.getP());
+        SmplObj result = SmplObj.DEFAULT;
+        if(pair instanceof SmplPair)
+            result =  pair.first();
+        else if(pair instanceof SmplList)
+            result = ((SmplList)pair).getList().first();
 
-        return pair.first();
+        return result;
     }
 
     @Override
     public SmplObj visitIRExpCdr(IRExpCdr cdr, Environment<SmplObj> arg) throws SmplException {
         SmplObj pair = arg.get(cdr.getP());
-
-        return pair.second();
+        SmplObj result = SmplObj.DEFAULT;
+        if(pair instanceof SmplPair)
+            result =  pair.second();
+        else if(pair instanceof SmplList)
+            result = ((SmplList)pair).getList().second();
+        return result;
     }
 
     @Override
@@ -567,5 +576,45 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
             }
             return new SmplList(objs);
         }
+    }
+
+    @Override
+    public SmplObj visitIRExpGetIndex(IRExpGetIndex exp, Environment<SmplObj> args) throws SmplException {
+        SmplObj vector = exp.getVector().visit(this, args);
+        SmplObj n = exp.getN().visit(this, args);
+        return ((SmplVector) vector).getArray().get(((SmplInt) n).value());
+    }
+
+    @Override
+    public SmplObj visitIRExpGetSize(IRExpGetSize exp, Environment<SmplObj> arg) throws SmplException{
+        SmplVector vector = (SmplVector) arg.get(exp.getVec());
+        return vector.size();
+
+    }
+
+    @Override
+    public SmplObj visitIRExpEquivalent(IRExpEquivalent exp, Environment<SmplObj> arg) {
+        return null;
+    }
+
+    @Override
+    public SmplObj visitIRExpEqual(IRExpEqual exp, Environment<SmplObj> arg) {
+        return null;
+    }
+
+    @Override
+    public SmplObj visitIRExpSubStr(IRExpSubStr exp, Environment<SmplObj> arg) throws SmplException {
+        String e1 = ((SmplString) arg.get(exp.getE1())).getValue();
+
+        int e2 = ((SmplInt) arg.get(exp.getE2())).value();
+
+        int e3 = ((SmplInt) arg.get(exp.getE3())).value();
+
+        if(e3 < e2)
+            return new SmplString("");
+        else if(((e2 >= 0) && (e2 < e1.length())) && (e3 <= e1.length()))
+            return new SmplString(e1.substring(e2, e3));
+        else
+            return null;
     }
 }

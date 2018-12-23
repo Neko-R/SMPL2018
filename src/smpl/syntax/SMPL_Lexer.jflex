@@ -145,7 +145,7 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
 //[ -~] matches all ascii characters in range 32-127
 
-<YYINITIAL>   \"([ -~]|\n|\t)+\" {return new Symbol(sym.STRING, yytext());}
+<YYINITIAL>   \"([ -~]|\n|\t)*\" {return new Symbol(sym.STRING, yytext());}
 
 <YYINITIAL>   '([ -~]|\\n|\\t)'|#u{num}{4} {return new Symbol(sym.CHARACTER, yytext());}
 

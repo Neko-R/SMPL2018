@@ -132,6 +132,38 @@ public class Environment<T> {
 
         result.put("list",(T) list);
 
+        ParamLst p6 = new ParamLst();
+        p6.add("norm", "vec");
+        Statement b6 = new StmtExpr(new IRExpGetSize("vec"));
+        SmplProc size = new SmplProc(new IRExpProc(p6,b6,"fixed"));
+
+        result.put("size",(T) size);
+
+        ParamLst p7 = new ParamLst();
+        p7.add("norm", "eqv1");
+        p7.add("norm", "eqv2");
+        Statement b7 = new StmtExpr(new IRExpEquivalent("eqv1", "eqv2"));
+        SmplProc eqv = new SmplProc( new IRExpProc(p7,b7,"fixed"));
+
+        result.put("eqv?",(T) eqv);
+
+        ParamLst p8 = new ParamLst();
+        p8.add("norm", "equal1");
+        p8.add("norm", "equal2");
+        Statement b8 = new StmtExpr(new IRExpEqual("equal1", "equal2"));
+        SmplProc equal = new SmplProc( new IRExpProc(p8,b8,"fixed"));
+
+        result.put("equal?",(T) equal);
+
+        ParamLst p9 = new ParamLst();
+        p9.add("norm", "sub1");
+        p9.add("norm", "sub2");
+        p9.add("norm", "sub3");
+        Statement b9 = new StmtExpr(new IRExpSubStr("sub1", "sub2", "sub3"));
+        SmplProc substr = new SmplProc( new IRExpProc(p9,b9,"fixed"));
+
+        result.put("substr",(T) substr);
+
 	return result;
     }
     

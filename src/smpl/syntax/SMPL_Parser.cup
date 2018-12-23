@@ -152,7 +152,7 @@ stmt ::= definition:d {: RESULT = d; :} |
           printLnStmt:ps {: RESULT = ps; :}|
 	      expression:e {: RESULT = new StmtExpr(e); :};
 
-definition ::= VARIABLE:v ASSIGN expression:e {: RESULT = new StmtDefinition(v, e);:};
+definition ::= factor:v ASSIGN expression:e {: RESULT = new StmtDefinition(v, e);:};
 
 defStmt ::=	  DEF VARIABLE:id expression:e {: RESULT = new StmtDef(id, e); :};
 
@@ -237,22 +237,24 @@ factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
         TRU:ilit {: RESULT = new IRExpLit(true); :} |
         FALS:ilit {: RESULT = new IRExpLit(false); :} |
 	   VARIABLE:var {: RESULT = new IRExpVar(var); :} |
-	   NIL:nil {: RESULT = new IRExpLit("nil"); :} |
+	   NIL:nil {: RESULT = new IRExpLit(); :} |
 	   LPAREN expression:e RPAREN {: RESULT = e; :} |
+	   unique:u  {: RESULT = u; :}|
 	   callProc:call {: RESULT = call; :};
 
 unique ::= LVEC specLst:slst RVEC {: RESULT = new IRExpVector(slst); :}|
-            factor:v LBRAK expression:e RBRAK {: RESULT = :};
-
-callProc ::=  CALL LPAREN factor:f COMMA factor:alst RPAREN {: RESULT = new IRExpProcCallFull(f, alst); :}|
-                factor:f LPAREN argList:alst RPAREN {: RESULT = new IRExpProcCallShort(f,alst); :}|
-                LBRAK argList:alst RBRAK {: RESULT = new IRExpProcCallShort(new IRExpVar("list"), alst); :};
+            factor:v LBRAK factor:n RBRAK {: RESULT = new IRExpGetIndex(v, n);:};//|
+            //factor:v LBRAK factor:n RBRAK ASSIGN expression:e {: RESULT = new IRExpGetIndex(v, n, e);:};
 
 specLst ::= specLst:slst COMMA spec:sp {: slst.add(sp); RESULT = slst; :}|
             spec:sp {: ArrayList<Specification> lst = new ArrayList<>(); lst.add(sp); RESULT = lst; :};
 
 spec ::= expression:e COLN procExp:p {: RESULT = new Specification(e,p); :}|
             expression:e {:  RESULT = new Specification(e); :};
+
+callProc ::=  CALL LPAREN factor:f COMMA factor:alst RPAREN {: RESULT = new IRExpProcCallFull(f, alst); :}|
+                factor:f LPAREN argList:alst RPAREN {: RESULT = new IRExpProcCallShort(f,alst); :}|
+                LBRAK argList:alst RBRAK {: RESULT = new IRExpProcCallShort(new IRExpVar("list"), alst); :};
 /*
 lstArgs ::= lstArgs:lstargs LPAREN argList:alst RPAREN {: lstargs.add(alst); RESULT = lstargs ; :}|
             LPAREN argList:alst RPAREN {: ArrayList<ArgList> lst = new ArrayList<>(); lst.add(alst); RESULT = lst;:};*/

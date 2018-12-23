@@ -185,4 +185,14 @@ public interface Visitor<S, T> {
 
     public T visitSpecification(Specification exp, S state) throws SmplException;
 
+    public T visitIRExpGetIndex(IRExpGetIndex exp, S state) throws SmplException;
+
+    public T visitIRExpGetSize(IRExpGetSize exp, S state) throws SmplException;
+
+    public T visitIRExpEquivalent(IRExpEquivalent exp, S arg) throws SmplException;
+
+    public T visitIRExpEqual(IRExpEqual exp, S arg) throws SmplException;
+
+    public T visitIRExpSubStr(IRExpSubStr exp, S arg) throws SmplException;
+
 }

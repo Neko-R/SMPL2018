@@ -1,5 +1,7 @@
 package smpl.values;
 
+import smpl.sys.SmplException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,6 +18,11 @@ public class SmplVector extends SmplObj {
     public SmplVector(ArrayList<SmplObj> array){
         this();
         this.array = array;
+    }
+
+    @Override
+    public SmplInt size() throws SmplException {
+        return new SmplInt(array.size());
     }
 
     @Override
