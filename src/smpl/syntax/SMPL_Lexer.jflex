@@ -139,7 +139,11 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 //<YYINITIAL>	"/*"	{return new Symbol(sym.LBCOMN);}
 //<YYINITIAL>	"*/"	{return new Symbol(sym.RBCOMN);}
 
-<YYINITIAL>    0|-?[1-9][0-9]*|#b[01]+|#x([a-fA-F0-9])+ {return new Symbol(sym.INTEGER, new Integer(yytext()));}
+<YYINITIAL>    -?[0-9]* {return new Symbol(sym.INTEGER, new Integer(yytext()));}
+
+<YYINITIAL>    "#b"[01]+ {return new Symbol(sym.BINARY, yytext());}
+
+<YYINITIAL>    "#x"[a-fA-F0-9]+ {return new Symbol(sym.HEXA, yytext());}
 
 <YYINITIAL>    -?(({num}+".")|("."{num}+)|({num}+"."{num}+)) {return new Symbol(sym.DOUBLE, new Double(yytext()));}
 
@@ -147,7 +151,9 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
 <YYINITIAL>   \"([ -~]|\n|\t)*\" {return new Symbol(sym.STRING, yytext());}
 
-<YYINITIAL>   '([ -~]|\\n|\\t)'|#u{num}{4} {return new Symbol(sym.CHARACTER, yytext());}
+<YYINITIAL>   '([ -~]|\n|\t)' {return new Symbol(sym.CHARACTER, yytext());}
+
+<YYINITIAL>   "#u"[a-fA-F0-9]{4} {return new Symbol(sym.UNICODE, yytext());}
 
 <YYINITIAL>   "#t"  {return new Symbol(sym.TRU, yytext());}
 

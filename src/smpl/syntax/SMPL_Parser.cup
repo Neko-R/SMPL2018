@@ -90,8 +90,8 @@ non terminal StmtPrintLn printLnStmt;
 
 // terminals with values
 terminal Integer INTEGER;
-terminal String VARIABLE;
-terminal String STRING, CHARACTER;
+terminal String VARIABLE, BINARY, HEXA;
+terminal String STRING, CHARACTER, UNICODE;
 terminal Double DOUBLE;
 terminal String TRU, FALS, NIL;
 
@@ -114,14 +114,10 @@ non terminal Specification spec;
 non terminal IRExpProc procExp;
 non terminal ParamLst paramList, paramListNE;
 non terminal IRExp callProc;
-non terminal ArrayList<IRExp> argList;
+non terminal ArrayList<IRExp> argList, List;
 
 non terminal BindingList bindingList;
 non terminal Binding binding;
-
-/* Non terminals for compound and multi-valued expressions */
-non terminal IRExpCompExp compExp;
-//non terminal IRExpMultiExp multiExp;
 
 non terminal IRExp expression;
 non terminal IRExp arithExp;
@@ -150,7 +146,11 @@ stmtList ::= stmtList:lst SEMI stmt:s {:
 stmt ::= definition:d {: RESULT = d; :} |
           defStmt: ds {: RESULT = ds; :}|
           printLnStmt:ps {: RESULT = ps; :}|
+          LPAREN List: multiexplst RPAREN {: RESULT = new StmtExpr(new IRExpMultiExp(multiexplst)); :}|
 	      expression:e {: RESULT = new StmtExpr(e); :};
+
+List ::= List:alst COMMA expression:e {: alst.add(e); RESULT = alst; :}|
+             expression:e1 COMMA expression:e {: ArrayList<IRExp> lst = new ArrayList<>(); lst.add(e1); lst.add(e); RESULT = lst; :};
 
 definition ::= factor:v ASSIGN expression:e {: RESULT = new StmtDefinition(v, e);:};
 
@@ -162,18 +162,10 @@ printLnStmt ::= PRINTLN expression:e {: RESULT = new StmtPrintLn(e); :};
 
 expression ::= relatExp:e {: RESULT = e; :}|
                letExp:ltstmt {: RESULT = ltstmt; :}|
-                LBRACE compExp:compexplst RBRACE {: RESULT = compexplst; :}|
-                //LPAREN multiExp: multiexplst RPAREN {: RESULT = multiexplst; :};//|
+                LBRACE stmtList:compexplst RBRACE {: RESULT = new IRExpCompExp(compexplst); :}|
                 procExp: procstmt {: RESULT = procstmt; :}|
                 ifExp: ifexp {: RESULT = ifexp; :};
-                //openIfExp: ifexp {: RESULT = ifexp; :}|
-                //closedIfExp: ifexp {: RESULT = ifexp; :};  /* put other types here */
-
-compExp ::= compExp:compLst SEMI stmt:s {: compLst.add(s); RESULT = compLst; :}|
-            stmt:s {: RESULT = new IRExpCompExp(s); :};
-
-//multiExp ::= multiExp:multiexplst COMMA expression:e {: multiexplst.add(e); RESULT = multiexplst; :}|
-//                expression:e {: RESULT = new IRExpMultiExp(e); :};
+                /* put other types here */
 
 procExp ::= PROC LPAREN paramList:plst RPAREN stmt: body {: RESULT = new IRExpProc(plst, body, "fixed") ; :}|
             PROC LPAREN paramList:plst DOT VARIABLE:prest RPAREN stmt: body {: plst.add("norm",prest); RESULT = new IRExpProc(plst, body, "least") ; :}|
@@ -217,7 +209,7 @@ arithExp ::= 	arithExp:e PLUS term:t {:
 		term:t {: RESULT = t; :};
 
 term ::= term:t MUL exponent:expt {:
-		RESULT = new IRExpMul(t, expt); :} |
+        RESULT = new IRExpMul(t, expt); :} |
 	 term:t DIV exponent:expt {:
 		RESULT = new IRExpDiv(t, expt); :} |
 	 term:t MOD exponent:expt {:
@@ -231,9 +223,12 @@ negat ::= BNOT negat:n {: RESULT = new IRExpBnot(n); :}|
             factor:f {: RESULT = f; :};
 
 factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
+        BINARY:ilit {: RESULT = new IRExpLit("b",ilit); :} |
+        HEXA:ilit {: RESULT = new IRExpLit("h",ilit); :} |
         DOUBLE:ilit {: RESULT = new IRExpLit(ilit); :} |
         STRING:ilit {: RESULT = new IRExpLit(ilit); :} |
         CHARACTER:ilit {: RESULT = new IRExpLit("c",ilit); :} |
+        UNICODE:ilit {: RESULT = new IRExpLit("u",ilit); :} |
         TRU:ilit {: RESULT = new IRExpLit(true); :} |
         FALS:ilit {: RESULT = new IRExpLit(false); :} |
 	   VARIABLE:var {: RESULT = new IRExpVar(var); :} |
@@ -255,9 +250,6 @@ spec ::= expression:e COLN procExp:p {: RESULT = new Specification(e,p); :}|
 callProc ::=  CALL LPAREN factor:f COMMA factor:alst RPAREN {: RESULT = new IRExpProcCallFull(f, alst); :}|
                 factor:f LPAREN argList:alst RPAREN {: RESULT = new IRExpProcCallShort(f,alst); :}|
                 LBRAK argList:alst RBRAK {: RESULT = new IRExpProcCallShort(new IRExpVar("list"), alst); :};
-/*
-lstArgs ::= lstArgs:lstargs LPAREN argList:alst RPAREN {: lstargs.add(alst); RESULT = lstargs ; :}|
-            LPAREN argList:alst RPAREN {: ArrayList<ArgList> lst = new ArrayList<>(); lst.add(alst); RESULT = lst;:};*/
 
 argList ::= argList:alst COMMA expression:e {: alst.add(e); RESULT = alst; :}|
             expression:e {: ArrayList<IRExp> lst = new ArrayList<>(); lst.add(e); RESULT = lst; :};

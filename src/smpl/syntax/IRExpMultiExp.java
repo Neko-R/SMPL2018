@@ -10,12 +10,10 @@ public class IRExpMultiExp extends IRExp {
 
     ArrayList<IRExp> exps;
 
-    public IRExpMultiExp() {
-        exps = new ArrayList<>();
+    public IRExpMultiExp(ArrayList<IRExp> exps) {
+        this.exps = exps;
     }
 
-    public IRExpMultiExp(IRExp s) { this(); exps.add(s);
-    }
 
     public ArrayList<IRExp> getExps() {
 	return exps;
@@ -27,10 +25,6 @@ public class IRExpMultiExp extends IRExp {
 	return v.visitExpMultiExp(this, arg);
     }
 
-    public IRExpMultiExp add(IRExp s){
-        exps.add(s);
-        return this;
-    }
 
     @Override
     public String toString() {

@@ -277,27 +277,21 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
     @Override
     public SmplObj visitExpCompExp(IRExpCompExp exp, Environment<SmplObj> arg) throws SmplException {
-        ArrayList<Statement> stmts = exp.getStmts();
-
-        SmplObj result = SmplObj.DEFAULT;
-        for (Statement s : stmts) {
-            result = s.visit(this, arg);
-        }
-        return result;
+        StmtSequence stmts = exp.getStmts();
+        Environment<SmplObj> newEnv = new Environment(arg);
+        return stmts.visit(this, newEnv);
     }
 
     @Override
     public SmplObj visitExpMultiExp(IRExpMultiExp exp, Environment<SmplObj> args)  throws SmplException {
         ArrayList<IRExp> exps = exp.getExps();
 
-        SmplTuple tuple = new SmplTuple();
-        SmplObj val;
+        ArrayList<SmplObj> values = new ArrayList<>();
         for (IRExp s: exps) {
-            val = s.visit(this, args);
-            tuple.add(val);
+            SmplObj val = s.visit(this, args);
+            values.add(val);
         }
-
-        return tuple;
+        return new SmplTuple(values);
 
     }
 

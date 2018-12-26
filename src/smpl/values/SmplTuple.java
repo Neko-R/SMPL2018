@@ -11,15 +11,9 @@ public class SmplTuple extends SmplObj {
 
     ArrayList<SmplObj> values;
 
-    public SmplTuple() {
+    public SmplTuple(ArrayList<SmplObj> vals) {
         super(Type.TUPLE);
-    }
-
-    @Override
-    public SmplObj add(SmplObj val){
-        values.add(val);
-        return this;
-
+        values = vals;
     }
 
     public ArrayList<SmplObj> getValues(){
@@ -30,11 +24,14 @@ public class SmplTuple extends SmplObj {
     public String toString() {
         Iterator<SmplObj> iter = values.iterator();
 
-        String result = "( ";
+        String result = "(";
         while (iter.hasNext()) {
-            result = result + iter.next().toString() + ",\n";
+            result = result + iter.next().toString();
+            if(iter.hasNext()){
+                result = result + ",";
+            }
         }
-        result = result + " )";
+        result = result + ")";
         return result;
     }
 }

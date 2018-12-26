@@ -3,9 +3,9 @@ package smpl.values;
 
 public class SmplChar extends SmplObj {
 
-    String value;
+    char value;
 
-    public SmplChar(String c) {
+    public SmplChar(char c) {
         super(Type.CHAR);
         value = c;
     }
@@ -20,7 +20,7 @@ public class SmplChar extends SmplObj {
         return ""+value;
     }
 
-    public String getValue() {
+    public char getValue() {
         return value;
     }
 

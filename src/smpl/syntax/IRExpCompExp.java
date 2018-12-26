@@ -7,16 +7,11 @@ import java.util.ArrayList;
 
 public class IRExpCompExp extends IRExp {
 
-    ArrayList<Statement> stmts;
+    StmtSequence stmts;
 
-    public IRExpCompExp() {
-        stmts = new ArrayList<>();
-    }
+    public IRExpCompExp(StmtSequence s) { this.stmts = s; }
 
-    public IRExpCompExp(Statement s) { this(); stmts.add(s);
-    }
-
-    public ArrayList<Statement> getStmts() {
+    public StmtSequence getStmts() {
 	    return stmts;
     }
 

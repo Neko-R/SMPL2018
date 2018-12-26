@@ -2,7 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf990192-d879-40dc-8fc4-66ab9613edf8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/semantics/SmplEval.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/SmplEval.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/smpl/semantics/SmplEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/semantics/SmplEval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/CUP$SmplParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/CUP$SmplParser$actions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpCompExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpCompExp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpCompExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpCompExp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpLit.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpLit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpLit.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpLit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/SmplParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/SmplParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/sym.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/sym.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/syntax/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/syntax/sym.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/values/SmplChar.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplChar.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/values/SmplChar.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplChar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/values/SmplTuple.class" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplTuple.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smpl/values/SmplTuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/smpl/values/SmplTuple.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,56 +36,89 @@
     <session id="62359815">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.49" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="cup" value="2" />
-          <entry key="java" value="29" />
+          <entry key="java" value="38" />
           <entry key="jflex" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Cup file" value="2" />
-          <entry key="JAVA" value="29" />
+          <entry key="JAVA" value="38" />
           <entry key="PLAIN_TEXT" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cup" value="765" />
-          <entry key="java" value="2543" />
-          <entry key="jflex" value="12" />
+          <entry key="cup" value="1040" />
+          <entry key="java" value="3003" />
+          <entry key="jflex" value="96" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Cup file" value="765" />
-          <entry key="JAVA" value="2543" />
-          <entry key="PLAIN_TEXT" value="12" />
+          <entry key="Cup file" value="1039" />
+          <entry key="JAVA" value="3004" />
+          <entry key="PLAIN_TEXT" value="96" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/smpl/semantics/SmplEval.java">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="649">
-              <caret line="604" column="17" lean-forward="true" selection-start-line="604" selection-start-column="17" selection-end-line="604" selection-end-column="17" />
+            <state relative-caret-position="-1621">
+              <caret line="92" column="38" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+              <folding>
+                <element signature="e#46#47#0" expanded="true" />
+                <element signature="e#82#83#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup">
+        <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="218" column="36" selection-start-line="218" selection-start-column="36" selection-end-line="218" selection-end-column="36" />
+            <state relative-caret-position="422">
+              <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpLit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="46" column="72" selection-start-line="46" selection-start-column="72" selection-end-line="46" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/smpl/values/SmplInt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/smpl/semantics/SmplEval.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4155">
+              <caret line="290" column="46" selection-start-line="290" selection-start-column="46" selection-end-line="290" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -72,7 +126,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/smpl/semantics/Visitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="664">
+            <state relative-caret-position="2670">
               <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
             </state>
           </provider>
@@ -81,17 +135,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/smpl/semantics/Environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
+            <state relative-caret-position="2295">
               <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="147" column="30" selection-start-line="147" selection-start-column="30" selection-end-line="147" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -117,20 +162,24 @@
         <option value="$PROJECT_DIR$/smpl/builtIn_necessities/IRExpEquivalent.java" />
         <option value="$PROJECT_DIR$/smpl/builtIn_necessities/IRExpEqual.java" />
         <option value="$PROJECT_DIR$/smpl/values/SmplNil.java" />
-        <option value="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" />
         <option value="$PROJECT_DIR$/smpl/values/SmplPair.java" />
         <option value="$PROJECT_DIR$/smpl/semantics/Environment.java" />
         <option value="$PROJECT_DIR$/smpl/semantics/Visitor.java" />
         <option value="$PROJECT_DIR$/smpl/builtIn_necessities/IRExpSubStr.java" />
+        <option value="$PROJECT_DIR$/smpl/syntax/IRExpCompExp.java" />
+        <option value="$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.java" />
+        <option value="$PROJECT_DIR$/smpl/semantics/SmplEval.java" />
+        <option value="$PROJECT_DIR$/smpl/values/SmplTuple.java" />
+        <option value="$PROJECT_DIR$/smpl/values/SmplChar.java" />
+        <option value="$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup" />
         <option value="$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex" />
         <option value="$PROJECT_DIR$/smpl/syntax/IRExpLit.java" />
-        <option value="$PROJECT_DIR$/smpl/semantics/SmplEval.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="511" />
-    <option name="y" value="40" />
+    <option name="x" value="724" />
+    <option name="y" value="24" />
     <option name="width" value="979" />
     <option name="height" value="1040" />
   </component>
@@ -141,7 +190,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -189,10 +237,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545592201778" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545598359202" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -227,7 +276,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
+    <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
@@ -235,7 +284,7 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.13447171" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.13660619" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -277,13 +326,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="21" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/values/SmplInt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -389,45 +431,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/values/SmplList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="54" column="35" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/smpl/values/SmplPair.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
           <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/semantics/Visitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
-          <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="218" column="36" selection-start-line="218" selection-start-column="36" selection-end-line="218" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="147" column="30" selection-start-line="147" selection-start-column="30" selection-end-line="147" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpLit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -442,17 +449,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/smpl/semantics/Environment.java">
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpCompExp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
+        <state relative-caret-position="195">
+          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/BindingList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/smpl/semantics/SmplEval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="649">
-          <caret line="604" column="17" lean-forward="true" selection-start-line="604" selection-start-column="17" selection-end-line="604" selection-end-column="17" />
+        <state relative-caret-position="4155">
+          <caret line="290" column="46" selection-start-line="290" selection-start-column="46" selection-end-line="290" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/values/SmplList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="54" column="35" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpMultiExp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/semantics/Visitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2670">
+          <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/semantics/Environment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2295">
+          <caret line="161" column="51" selection-start-line="161" selection-start-column="51" selection-end-line="161" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/values/SmplTuple.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Parser.cup">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1621">
+          <caret line="92" column="38" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+          <folding>
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#82#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/values/SmplChar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="22" column="15" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/values/SmplInt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/SMPL_Lexer.jflex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smpl/syntax/IRExpLit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="46" column="72" selection-start-line="46" selection-start-column="72" selection-end-line="46" selection-end-column="72" />
         </state>
       </provider>
     </entry>

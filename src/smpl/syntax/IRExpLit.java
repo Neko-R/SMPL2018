@@ -41,8 +41,16 @@ public class IRExpLit extends IRExp {
     }
 
     public IRExpLit(String i, String v) {
-        if(i == "c") val = new SmplChar(v);
+        if(i == "c")
+            val = new SmplChar(v.charAt(1));
+        else if(i == "u")
+            val = new SmplChar((char) Integer.parseInt(v.substring(2),16));
+        else if(i == "b")
+            val = new SmplInt(Integer.parseInt(v.substring(2),2));
+        else if(i == "h")
+            val = new SmplInt(Integer.parseInt(v.substring(2),16));
     }
+
 
     public SmplObj getVal() {
         return val;
