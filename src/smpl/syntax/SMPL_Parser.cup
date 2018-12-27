@@ -67,24 +67,24 @@ terminal EQV, GRT, LST, GQT, LQT, NQT;
 terminal BAND, BOR, BNOT;
 
 // logical operators
-//terminal AND, OR, NOT;
+terminal AND, OR, NOT;
 
 // list operation
-//terminal CAT;
+terminal CAT;
 
 // 'if' special form
 terminal IF, THEN, ELSE;
-//terminal CASE;
+terminal CASE;
 
 // special key words
 terminal LET, DEF, PROC, CALL;
 terminal LAZY;
 
-terminal PRINTLN;//, PRINT;
+terminal PRINTLN, PRINT;
 non terminal StmtPrintLn printLnStmt;
 
-//terminal READ, READINT;
-//terminal COMNLN, LBCOMN, RBCOMN;
+terminal READ, READINT;
+terminal COMNLN, LBCOMN, RBCOMN;
 // graphical operators (optional)
 
 
@@ -158,6 +158,9 @@ defStmt ::=	  DEF VARIABLE:id expression:e {: RESULT = new StmtDef(id, e); :};
 
 printLnStmt ::= PRINTLN expression:e {: RESULT = new StmtPrintLn(e); :};
 
+/*nonStmt ::= valExp:v {: RESULT = v; :}|
+            COMMENT:c {: RESULT = new ASTComment(c); :};*/
+
 /* ----- Add Expressions below here ----- */
 
 expression ::= relatExp:e {: RESULT = e; :}|
@@ -189,6 +192,10 @@ paramListNE ::= paramList:plst COMMA LAZY VARIABLE:pi {: plst.add("lazy", pi); R
 
 ifExp ::= IF relatExp:pred THEN stmt:thenClause ELSE stmt:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :};
 
+/*caseExp ::= CASE LBRACK predList:p  RBRACK {:
+                    RESULT = new IRCase(p);
+                :};*/
+				
 //otherwise ::= //empty {: /* optional */:} | ELSE stmt: s {: RESULT = s; :};
 
 letExp ::= LET LPAREN bindingList:blst RPAREN stmt:body {: RESULT = new IRExpLet(blst, body); :};
@@ -198,6 +205,32 @@ bindingList ::= bindingList:blst COMMA binding:b {: blst.add(b); RESULT = blst;:
 
 binding ::= VARIABLE:id EQV expression:e {: RESULT = new Binding(id, e); :};
 
+/*sysExp ::= READ LPAREN RPAREN SEMI {:
+                    RESULT = new IRRead();
+                :}|
+           READINT LPAREN RPAREN SEMI {:
+                    RESULT = new IRReadInt();
+                :}|
+           PRINT LPAREN valExp:e RPAREN SEMI {:
+                    RESULT = new IRPrint(e);
+                :}|
+           PRINTLN LPAREN valExp:e RPAREN SEMI {:
+                    RESULT = new StmtPrintLn(e);
+                :};
+				
+valExp ::= valExp:log OR logExp:le {:
+                RESULT = new IRLOr(log,le);
+            :} |
+            valExp:log AND logExp:le {:
+                RESULT = new IRLAnd(log,le);
+            :} |
+            NOT valExp:log {: RESULT = new IRLNot(log); :} |
+            logExp:log {: RESULT = log; :};				
+				
+				
+*/
+				
+				
 relatExp ::= relatExp:re EQV bitWiseExp:be {: RESULT = new IRExpEqv(re, be); :}|
               relatExp:re GRT bitWiseExp:be {: RESULT = new IRExpGrt(re, be); :}|
                relatExp:re LST bitWiseExp:be {: RESULT = new IRExpLst(re, be); :}|
