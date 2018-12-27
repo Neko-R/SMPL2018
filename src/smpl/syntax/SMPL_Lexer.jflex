@@ -89,11 +89,11 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 <YYINITIAL>	{ws}+">="{ws}+	{return new Symbol(sym.GQT);}
 <YYINITIAL>	{ws}+"!="{ws}+	{return new Symbol(sym.NQT);}
 
-//<YYINITIAL>	{ws}+"and"{ws}+	{return new Symbol(sym.AND);}
-//<YYINITIAL>	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
-//<YYINITIAL>	{ws}+"not"{ws}+	{return new Symbol(sym.NOT);}
+<YYINITIAL>	{ws}+"and"{ws}+	{return new Symbol(sym.AND);}
+<YYINITIAL>	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
+<YYINITIAL>	{ws}+"not"{ws}+	{return new Symbol(sym.NOT);}
 
-//<YYINITIAL>	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
+<YYINITIAL>	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
 
 <YYINITIAL>	 {ws}+":="{ws}+ 	{return new Symbol(sym.ASSIGN);}
 
@@ -127,17 +127,17 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 <YYINITIAL>	"then"	{return new Symbol(sym.THEN);}
 <YYINITIAL>	"else"	{return new Symbol(sym.ELSE);}
 
-//<YYINITIAL>	"case"	{return new Symbol(sym.CASE);}
+<YYINITIAL>	"case"	{return new Symbol(sym.CASE);}
 
-//<YYINITIAL>	"print"	{return new Symbol(sym.PRINT);}
+<YYINITIAL>	"print"	{return new Symbol(sym.PRINT);}
 <YYINITIAL>	"println"	{return new Symbol(sym.PRINTLN);}
 
-//<YYINITIAL>	"read"	{return new Symbol(sym.READ);}
-//<YYINITIAL>	"readint"	{return new Symbol(sym.READINT);}
+<YYINITIAL>	"read"	{return new Symbol(sym.READ);}
+<YYINITIAL>	"readint"	{return new Symbol(sym.READINT);}
 
-//<YYINITIAL>	"//"	{return new Symbol(sym.COMNLN);}
-//<YYINITIAL>	"/*"	{return new Symbol(sym.LBCOMN);}
-//<YYINITIAL>	"*/"	{return new Symbol(sym.RBCOMN);}
+//<YYINITIAL>	"//"{ws}+	{return new Symbol(sym.COMNLN);}
+//<YYINITIAL>	"/*"{ws}+	{return new Symbol(sym.LBCOMN);}
+//<YYINITIAL>	{ws}+"*/"	{return new Symbol(sym.RBCOMN);}
 
 <YYINITIAL>    0|-?[1-9][0-9]*|#b[01]+|#x([a-fA-F0-9])+ {return new Symbol(sym.INTEGER, new Integer(yytext()));}
 
