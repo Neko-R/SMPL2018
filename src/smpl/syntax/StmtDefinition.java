@@ -3,14 +3,16 @@ package smpl.syntax;
 import smpl.semantics.Visitor;
 import smpl.sys.SmplException;
 
+import java.util.ArrayList;
+
 /**
  * AST node to represent a variable definition.
  * @author newts
  */
 public class StmtDefinition extends Statement {
 
-    IRExp var;
-    IRExp exp;
+    IRExp  var;
+    IRExp  exp;
 
     /**
      * Create an instance of a variable definition
@@ -18,15 +20,15 @@ public class StmtDefinition extends Statement {
      * @param e The expression producing its value
      */
     public StmtDefinition(IRExp id, IRExp e) {
-	var = id;
-	exp = e;
+        var = id;
+        exp = e;
     }
 
-    public IRExp getVar(){
+    public IRExp  getVar(){
 	return var;
     }
 
-    public IRExp getExp() {
+    public IRExp  getExp() {
 	return exp;
     }
 

@@ -86,19 +86,39 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
     public SmplObj visitStmtDefinition(StmtDefinition sd, Environment<SmplObj> arg) throws SmplException {
         Environment<SmplObj> env = (Environment<SmplObj>) arg;
-        SmplObj result;
-        result = sd.getExp().visit(this, env);
+
         IRExp var = sd.getVar();
-        if(var instanceof IRExpVar)
-            env.put(((IRExpVar)var).getVar(), result);
-        else if(var instanceof IRExpGetIndex){
-            SmplObj vector = ((IRExpGetIndex)var).getVector().visit(this, arg);
-            SmplObj n = ((IRExpGetIndex)var).getN().visit(this, arg);
-            ((SmplVector) vector).getArray().remove(((SmplInt)n).value());
-            ((SmplVector) vector).getArray().add((((SmplInt)n).value()), result);
+        SmplObj result = sd.getExp().visit(this,arg);
+        if (var instanceof IRExpVar)
+            env.put(((IRExpVar) var).getVar(), result);
+        else if (var instanceof IRExpGetIndex) {
+            SmplObj vector = ((IRExpGetIndex) var).getVector().visit(this, arg);
+            SmplObj n = ((IRExpGetIndex) var).getN().visit(this, arg);
+            ((SmplVector) vector).getArray().remove(((SmplInt) n).value());
+            ((SmplVector) vector).getArray().add((((SmplInt) n).value()), result);
         }
 
-        return result;
+        /*Environment<SmplObj> env = (Environment<SmplObj>) arg;
+        ArrayList<IRExp> vars = sd.getVar();
+        ArrayList<IRExp> exps = sd.getExp();
+
+        if(vars.size() == exps.size()) {
+            for(int i = 0; i<vars.size();i++) {
+                IRExp var = vars.get(i);
+                SmplObj result = exps.get(i).visit(this,arg);
+                if (var instanceof IRExpVar)
+                    env.put(((IRExpVar) var).getVar(), result);
+                else if (var instanceof IRExpGetIndex) {
+                    SmplObj vector = ((IRExpGetIndex) var).getVector().visit(this, arg);
+                    SmplObj n = ((IRExpGetIndex) var).getN().visit(this, arg);
+                    ((SmplVector) vector).getArray().remove(((SmplInt) n).value());
+                    ((SmplVector) vector).getArray().add((((SmplInt) n).value()), result);
+                }
+            }
+        }
+        */
+
+        return null;
     }
 
     @Override
@@ -254,6 +274,38 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         SmplObj val1, val2;
         val1 = exp.getOperand1().visit(this, arg);
         return val1.notBits();
+    }
+
+    @Override
+    public SmplObj visitExpLO(IRExpLO exp, Environment<SmplObj> arg) throws SmplException {
+        SmplObj val1, val2;
+        val1 = exp.getOperand1().visit(this, arg);
+        val2 = exp.getOperand2().visit(this, arg);
+        return val1.orLogical(val2);
+    }
+
+    @Override
+    public SmplObj visitExpLA(IRExpLA exp, Environment<SmplObj> arg) throws SmplException {
+        SmplObj val1, val2;
+        val1 = exp.getOperand1().visit(this, arg);
+        val2 = exp.getOperand2().visit(this, arg);
+        return val1.andLogical(val2);
+    }
+
+    @Override
+    public SmplObj visitExpLN(IRExpLN exp, Environment<SmplObj> arg) throws SmplException {
+        SmplObj val1;
+        val1 = exp.getOperand1().visit(this, arg);
+        return val1.notLogical();
+    }
+
+    @Override
+    public SmplObj visitExpCat(IRExpCat exp, Environment<SmplObj> arg) throws SmplException {
+        SmplObj val1, val2;
+        val1 = exp.getOperand1().visit(this, arg);
+        val2 = exp.getOperand2().visit(this, arg);
+
+        return val1.add(val2);
     }
 
     @Override

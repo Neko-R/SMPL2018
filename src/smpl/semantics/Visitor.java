@@ -129,6 +129,14 @@ public interface Visitor<S, T> {
     public T visitExpVar(IRExpVar exp, S state)
             throws SmplException;
 
+    public T visitExpLO(IRExpLO exp, S state) throws SmplException;
+
+    public T visitExpLA(IRExpLA exp, S state) throws SmplException;
+
+    public T visitExpLN(IRExpLN exp, S state) throws SmplException;
+
+    public T visitExpCat(IRExpCat exp, S state) throws SmplException;
+
     //Relational operations
     public T visitExpEqv(IRExpEqv exp, S state) throws SmplException;
 

@@ -89,11 +89,11 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 <YYINITIAL>	{ws}+">="{ws}+	{return new Symbol(sym.GQT);}
 <YYINITIAL>	{ws}+"!="{ws}+	{return new Symbol(sym.NQT);}
 
-//<YYINITIAL>	{ws}+"and"{ws}+	{return new Symbol(sym.AND);}
-//<YYINITIAL>	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
-//<YYINITIAL>	{ws}+"not"{ws}+	{return new Symbol(sym.NOT);}
+<YYINITIAL>	{ws}+"and"{ws}+	{return new Symbol(sym.AND);}
+<YYINITIAL>	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
+<YYINITIAL>	{ws}+"not"{ws}+	{return new Symbol(sym.NOT);}
 
-//<YYINITIAL>	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
+<YYINITIAL>	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
 
 <YYINITIAL>	 {ws}+":="{ws}+ 	{return new Symbol(sym.ASSIGN);}
 
@@ -149,9 +149,9 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
 //[ -~] matches all ascii characters in range 32-127
 
-<YYINITIAL>   \"([ -~]|\n|\t)*\" {return new Symbol(sym.STRING, yytext());}
+<YYINITIAL>   \"([ -~]|{ws})*\" {return new Symbol(sym.STRING, yytext());}
 
-<YYINITIAL>   '([ -~]|\n|\t)' {return new Symbol(sym.CHARACTER, yytext());}
+<YYINITIAL>   '([ -~]|\\n|\\t|{ws})' {return new Symbol(sym.CHARACTER, yytext());}
 
 <YYINITIAL>   "#u"[a-fA-F0-9]{4} {return new Symbol(sym.UNICODE, yytext());}
 

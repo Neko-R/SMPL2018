@@ -60,4 +60,16 @@ public class SmplList extends SmplObj {
         }
         return result + "]";
     }
+
+    @Override
+    public SmplObj add(SmplObj arg) throws SmplException {
+        if (arg instanceof SmplList) {
+            ArrayList<SmplObj>  nl = getArray();
+            for (SmplObj obj: ((SmplList)arg).getArray()) {
+                nl.add(obj);
+            }
+            return new SmplList(nl);
+        } else
+            return super.add(arg);
+    }
 }

@@ -41,9 +41,11 @@ public class IRExpLit extends IRExp {
     }
 
     public IRExpLit(String i, String v) {
-        if(i == "c")
+        if(i == "c") {
+            //v = v.replaceAll("'\\n'",""+(char)10 );
             val = new SmplChar(v.charAt(1));
-        else if(i == "u")
+            //System.out.print((char)10 + v + val);
+        }else if(i == "u")
             val = new SmplChar((char) Integer.parseInt(v.substring(2),16));
         else if(i == "b")
             val = new SmplInt(Integer.parseInt(v.substring(2),2));

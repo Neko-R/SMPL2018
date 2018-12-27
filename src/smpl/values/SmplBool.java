@@ -96,6 +96,33 @@ public class SmplBool extends SmplObj {
     }
 
     @Override
+    public SmplObj orLogical(SmplObj arg) throws SmplException {
+        if (arg instanceof SmplBool) {
+            return SmplBool.getConst(val() || ((SmplBool)arg).val());
+        } else
+            // go to parent class for default behaviour
+            return super.orLogical(arg);
+    }
+
+    @Override
+    public SmplObj andLogical(SmplObj arg) throws SmplException {
+        if (arg instanceof SmplBool) {
+            return SmplBool.getConst(val() && ((SmplBool)arg).val());
+        } else
+            // go to parent class for default behaviour
+            return super.andLogical(arg);
+    }
+
+    @Override
+    public SmplObj notLogical() throws SmplException {
+        if (val()) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    @Override
     public String toString() {
         if (val()) {
             return "#t";
