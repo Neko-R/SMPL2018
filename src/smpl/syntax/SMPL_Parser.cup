@@ -196,10 +196,10 @@ paramListNE ::= paramList:plst COMMA LAZY VARIABLE:pi {: plst.add("lazy", pi); R
 
 ifExp ::= IF logicOrExp:pred THEN stmt:thenClause ELSE stmt:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :};
 
-caseExp ::= CASE LBRACE clauseLst:clst COMMA ELSE COLN expression:e RBRACE {: RESULT = new IRExpCase(clst,e); :}|
+caseExp ::= CASE LBRACE clauseLst:clst COMMA ELSE COLN stmt:e RBRACE {: RESULT = new IRExpCase(clst,new ExprStmt(e)); :}|
             CASE LBRACE clauseLst:clst RBRACE {: RESULT = new IRExpCase(clst); :};
 
-clause ::= expression:p COLN expression:c {: RESULT = new Clause(p,c); :};
+clause ::= expression:p COLN stmt:c {: RESULT = new Clause(p,new ExprStmt(c)); :};
 
 clauseLst ::= clauseLst:lst COMMA clause:c {: lst.add(c); RESULT = lst; :}|
               clause:c  {: ArrayList<Clause> lst = new ArrayList<>(); lst.add(c); RESULT = lst; :};

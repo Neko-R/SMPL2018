@@ -79,7 +79,7 @@ alphanum = {alpha}|{num}
 valid = [!$%&*+\-./<-Z\^-z~|]
 digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
-%state STRING COMMENT CHAR HEXA BINARY UNICODE
+%state STRING COMMENTLN COMMENTBLK CHAR HEXA BINARY UNICODE
 
 %%
 
@@ -92,7 +92,9 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
 	{ws}	{/* ignore whitespace */}
 
-    "/*"	{ yybegin(COMMENT); commentNest++; }
+    "/*"	{ yybegin(COMMENTBLK); commentNest++; }
+
+    "//"	{yybegin(COMMENTLN);}
 
 	{ws}+"+"{ws}+	{return new Symbol(sym.PLUS);}
 	{ws}+"-"{ws}+	{return new Symbol(sym.MINUS);}
@@ -158,9 +160,6 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 	"read"	{return new Symbol(sym.READ);}
 	"readint"	{return new Symbol(sym.READINT);}
 
-//	"//"[^\n\r]	{return new Symbol(sym.COMNLN);}
-
-
    -?[0-9]* {return new Symbol(sym.INTEGER, new Integer(yytext()));}
 
     -?(({num}+".")|("."{num}+)|({num}+"."{num}+)) {return new Symbol(sym.DOUBLE, new Double(yytext()));}
@@ -198,33 +197,38 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
     [a-fA-F0-9]{4} {return new Symbol(sym.CHARACTER, (char) Integer.parseInt(yytext(),16));}
 }
 
-<COMMENT>{
+<COMMENTBLK>{
     "/*"    { commentNest++; }
     "*/"	{ commentNest--; if(commentNest == 0) yybegin(YYINITIAL);}
     {nl}    { lineCount++; }
     .       {}
 }
 
+<COMMENTLN>{
+    {nl}    { yybegin(YYINITIAL); }
+    .       {}
+
+}
+
 <CHAR>{
     '               { yybegin(YYINITIAL); return symbol(sym.CHARACTER, ch);}
     [^\n\r\"\\]     { ch = yytext().charAt(0); }
 
-    \\t              { ch = '\t';}
+    \\t      { ch = '\t';}
 
-    \\n              { ch = '\n'; }
+    \\n      { ch = '\n'; }
 
-    \\              { ch = '\\'; }
-
-
+    \\       { ch = '\\'; }
 }
 
 <STRING> {
-      \"                             { yybegin(YYINITIAL);
-                                       return symbol(sym.STRING, string.toString()); }
-      [^\n\r\"\\]+                   { string.append( yytext() ); }
-      \\t                            { string.append('\t'); }
-      \\n                            { string.append('\n'); }
-      \\                             { string.append('\\'); }
+      \"       { yybegin(YYINITIAL); return symbol(sym.STRING, string.toString()); }
+
+      [^\n\r\"\\]+       { string.append( yytext() ); }
+      \\t    { string.append('\t'); }
+      \\n    { string.append('\n'); }
+      \\     { string.append('\\'); }
+      \\\"      { string.append('\"'); }
 
     }
 

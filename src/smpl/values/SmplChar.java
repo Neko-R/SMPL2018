@@ -17,7 +17,7 @@ public class SmplChar extends SmplObj {
     
     @Override
     public String toString() {
-        return "'"+value+"'";
+        return ""+value;
     }
 
     public char getValue() {

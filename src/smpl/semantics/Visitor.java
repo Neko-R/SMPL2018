@@ -171,7 +171,7 @@ public interface Visitor<S, T> {
 
     public T visitStmtDef(StmtDef stmt, S state) throws SmplException;
 
-    public void visitStmtPrint(StmtPrint stmt, S state) throws SmplException;
+    public T visitStmtPrint(StmtPrint stmt, S state) throws SmplException;
 
     public T visitRead(Read exp, S state) throws SmplException;
 

@@ -550,11 +550,12 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     }
 
     @Override
-    public void visitStmtPrint(StmtPrint stmt, Environment<SmplObj> arg) throws SmplException{
+    public SmplObj visitStmtPrint(StmtPrint stmt, Environment<SmplObj> arg) throws SmplException{
         if(stmt.getType() == "Line")
-            System.out.println(stmt.getExp().visit(this, arg));
+            System.out.println(stmt.getExp().visit(this, arg) + "\n");
         else
-            System.out.print(stmt.getExp().visit(this, arg) + " ");
+            System.out.println(stmt.getExp().visit(this, arg) + " ");
+        return null;
     }
 
     @Override
