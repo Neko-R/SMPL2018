@@ -271,7 +271,7 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
     @Override
     public SmplObj visitExpBnot(IRExpBnot exp, Environment<SmplObj> arg) throws SmplException {
-        SmplObj val1, val2;
+        SmplObj val1;
         val1 = exp.getOperand1().visit(this, arg);
         return val1.notBits();
     }
@@ -368,6 +368,21 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
         }
         return result;
+    }
+
+    @Override
+    public SmplObj visitIRExpCase(IRExpCase exp, Environment<SmplObj> arg) throws SmplException {
+        ArrayList<Clause> clauses = exp.getClauses();
+        for (Clause clause:clauses) {
+            if(clause.getPredicate().visit(this,arg).isTrue())
+                return clause.getConsequent().visit(this,arg);
+        }
+
+        if(exp.getElseClause() != null){
+            return exp.getElseClause().visit(this,arg);
+        }else
+            return null;
+
     }
 
     @Override
@@ -535,8 +550,26 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     }
 
     @Override
-    public void visitStmtPrintLn(StmtPrintLn stmt, Environment<SmplObj> arg) throws SmplException{
-        System.out.print(stmt.getExp().visit(this, arg) + "\n");
+    public void visitStmtPrint(StmtPrint stmt, Environment<SmplObj> arg) throws SmplException{
+        if(stmt.getType() == "Line")
+            System.out.println(stmt.getExp().visit(this, arg));
+        else
+            System.out.print(stmt.getExp().visit(this, arg) + " ");
+    }
+
+    @Override
+    public SmplObj visitRead(Read exp, Environment<SmplObj> arg) {
+        Scanner sc = new Scanner(System.in);
+        SmplObj result;
+        if(exp.getType() == "Int") {
+            System.out.println("Enter an integer: ");
+            result = new SmplInt(sc.nextInt());
+        }else {
+            System.out.println("Enter a string: ");
+            result = new SmplString(sc.nextLine());
+        }
+
+        return result;
     }
 
     /**

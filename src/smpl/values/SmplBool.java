@@ -114,7 +114,7 @@ public class SmplBool extends SmplObj {
     }
 
     @Override
-    public SmplObj notLogical() throws SmplException {
+    public SmplObj notLogical(){
         if (val()) {
             return FALSE;
         } else {

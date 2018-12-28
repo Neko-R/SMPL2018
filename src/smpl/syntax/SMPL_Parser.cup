@@ -74,24 +74,26 @@ terminal CAT;
 
 // 'if' special form
 terminal IF, THEN, ELSE;
-//terminal CASE;
+terminal CASE;
 
 // special key words
 terminal LET, DEF, PROC, CALL;
 terminal LAZY;
 
-terminal PRINTLN;//, PRINT;
-non terminal StmtPrintLn printLnStmt;
+terminal PRINTLN, PRINT;
+non terminal StmtPrint printStmt;
 
-//terminal READ, READINT;
-//terminal COMNLN, LBCOMN, RBCOMN;
+terminal READ, READINT;
+
+//terminal COMNLN, COMMBLK;
 // graphical operators (optional)
 
 
 // terminals with values
 terminal Integer INTEGER;
-terminal String VARIABLE, BINARY, HEXA;
-terminal String STRING, CHARACTER, UNICODE;
+terminal String VARIABLE;
+terminal String STRING;
+terminal Character CHARACTER;
 terminal Double DOUBLE;
 terminal String TRU, FALS, NIL;
 
@@ -103,12 +105,18 @@ non terminal StmtDefinition definition;
 
 non terminal IRExpMultiExp multiExp;
 
+non terminal Read read;
+
 /* Non terminals for LET */
 non terminal IRExpLet letExp;
 
 non terminal StmtDef defStmt;
 
 non terminal IRExpIf ifExp;
+
+non terminal IRExpCase caseExp;
+non terminal Clause clause;
+non terminal ArrayList<Clause> clauseLst;
 
 non terminal ArrayList<Specification> specLst;
 non terminal Specification spec;
@@ -122,6 +130,8 @@ non terminal ArrayList<IRExp> argList, List;
 non terminal BindingList bindingList;
 non terminal Binding binding;
 
+non terminal IRExp logicOrExp, logicAndExp, logicNotExp;
+
 non terminal IRExp expression;
 non terminal IRExp arithExp;
 non terminal IRExp term;
@@ -131,7 +141,6 @@ non terminal IRExp unique;
 non terminal empty;
 
 non terminal IRExp relatExp, bitWiseExp, negat;
-non terminal IRExp logicOrExp, logicAndExp, logicNotExp;
 
 /* Grammar rules */
 
@@ -149,7 +158,8 @@ stmtList ::= stmtList:lst SEMI stmt:s {:
 
 stmt ::= definition:d {: RESULT = d; :} |
           defStmt: ds {: RESULT = ds; :}|
-          printLnStmt:ps {: RESULT = ps; :}|
+          printStmt:ps {: RESULT = ps; :}|
+          //COMMBLK:c {: RESULT = null;:}|
 	      expression:e {: RESULT = new StmtExpr(e); :};
 
 definition ::= factor:vlst ASSIGN expression:alst {: RESULT = new StmtDefinition(vlst, alst);:};
@@ -159,7 +169,8 @@ definition ::= factor:vlst ASSIGN expression:alst {: RESULT = new StmtDefinition
 
 defStmt ::=	  DEF VARIABLE:id expression:e {: RESULT = new StmtDef(id, e); :};
 
-printLnStmt ::= PRINTLN expression:e {: RESULT = new StmtPrintLn(e); :};
+printStmt ::= PRINTLN LPAREN expression:e RPAREN {: RESULT = new StmtPrint(e, "line"); :}|
+               PRINT LPAREN expression:e RPAREN {: RESULT = new StmtPrint(e, "regular"); :};
 
 /* ----- Add Expressions below here ----- */
 
@@ -167,7 +178,8 @@ expression ::= logicOrExp:e {: RESULT = e; :}|
                letExp:ltstmt {: RESULT = ltstmt; :}|
                 LBRACE stmtList:compexplst RBRACE {: RESULT = new IRExpCompExp(compexplst); :}|
                 procExp: procstmt {: RESULT = procstmt; :}|
-                ifExp: ifexp {: RESULT = ifexp; :};
+                ifExp: ifexp {: RESULT = ifexp; :}|
+                caseExp:caseexp {: RESULT = caseexp; :};
                 /* put other types here */
 
 procExp ::= PROC LPAREN paramList:plst RPAREN stmt: body {: RESULT = new IRExpProc(plst, body, "fixed") ; :}|
@@ -184,7 +196,13 @@ paramListNE ::= paramList:plst COMMA LAZY VARIABLE:pi {: plst.add("lazy", pi); R
 
 ifExp ::= IF logicOrExp:pred THEN stmt:thenClause ELSE stmt:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :};
 
-//otherwise ::= //empty {: /* optional */:} | ELSE stmt: s {: RESULT = s; :};
+caseExp ::= CASE LBRACE clauseLst:clst COMMA ELSE COLN expression:e RBRACE {: RESULT = new IRExpCase(clst,e); :}|
+            CASE LBRACE clauseLst:clst RBRACE {: RESULT = new IRExpCase(clst); :};
+
+clause ::= expression:p COLN expression:c {: RESULT = new Clause(p,c); :};
+
+clauseLst ::= clauseLst:lst COMMA clause:c {: lst.add(c); RESULT = lst; :}|
+              clause:c  {: ArrayList<Clause> lst = new ArrayList<>(); lst.add(c); RESULT = lst; :};
 
 letExp ::= LET LPAREN bindingList:blst RPAREN stmt:body {: RESULT = new IRExpLet(blst, body); :};
 
@@ -234,16 +252,13 @@ term ::= term:t MUL exponent:expt {:
 exponent ::= negat:n EXPT exponent:expt {: RESULT = new IRExpExpt(n,expt); :}|
             negat: n {: RESULT = n; :};
 
-negat ::= BNOT negat:n {: RESULT = new IRExpBnot(n); :}|
+negat ::=  BNOT negat:n {: RESULT = new IRExpBnot(n); :}|
             factor:f {: RESULT = f; :};
 
 factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
-        BINARY:ilit {: RESULT = new IRExpLit("b",ilit); :} |
-        HEXA:ilit {: RESULT = new IRExpLit("h",ilit); :} |
         DOUBLE:ilit {: RESULT = new IRExpLit(ilit); :} |
         STRING:ilit {: RESULT = new IRExpLit(ilit); :} |
-        CHARACTER:ilit {: RESULT = new IRExpLit("c",ilit); :} |
-        UNICODE:ilit {: RESULT = new IRExpLit("u",ilit); :} |
+        CHARACTER:ilit {: RESULT = new IRExpLit(ilit); :} |
         TRU:ilit {: RESULT = new IRExpLit(true); :} |
         FALS:ilit {: RESULT = new IRExpLit(false); :} |
         VARIABLE:var {: RESULT = new IRExpVar(var); :} |
@@ -251,6 +266,7 @@ factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
 	   LPAREN expression:e RPAREN {: RESULT = e; :} |
 	   multiExp:multiexplst {: RESULT = multiexplst; :}|
 	   unique:u  {: RESULT = u; :}|
+	   read:rs {: RESULT = rs; :}|
 	   callProc:call {: RESULT = call; :};
 
 unique ::=  LVEC specLst:slst RVEC {: RESULT = new IRExpVector(slst); :}|
@@ -274,5 +290,8 @@ List ::= List:alst COMMA expression:e {: alst.add(e); RESULT = alst; :}|
 
 argList ::= argList:alst COMMA expression:e {: alst.add(e); RESULT = alst; :}|
             expression:e {: ArrayList<IRExp> lst = new ArrayList<>(); lst.add(e); RESULT = lst; :};
+
+read ::= READ LPAREN RPAREN {: RESULT = new Read("string"); :}|
+            READINT LPAREN RPAREN {: RESULT = new Read("int"); :};
 
 empty ::= ;

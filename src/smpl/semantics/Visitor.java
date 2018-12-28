@@ -167,9 +167,13 @@ public interface Visitor<S, T> {
 
     public T visitIRExpIf(IRExpIf exp, S state) throws SmplException;
 
+    public T visitIRExpCase(IRExpCase exp, S state) throws SmplException;
+
     public T visitStmtDef(StmtDef stmt, S state) throws SmplException;
 
-    public void visitStmtPrintLn(StmtPrintLn stmt, S state) throws SmplException;
+    public void visitStmtPrint(StmtPrint stmt, S state) throws SmplException;
+
+    public T visitRead(Read exp, S state) throws SmplException;
 
     public T visitExprStmt(ExprStmt stmt, S state) throws SmplException;
 

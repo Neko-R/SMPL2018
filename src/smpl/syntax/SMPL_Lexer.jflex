@@ -28,8 +28,25 @@ import smpl.sys.TokenException;
 %line
 
 %{
+    StringBuffer string = new StringBuffer();
+
+    private Symbol symbol(int type) {
+        return new Symbol(type, yyline, yycolumn);
+      }
+
+    private Symbol symbol(int type, Object value) {
+        return new Symbol(type, yyline, yycolumn, value);
+      }
+
+    Character ch = Character.MIN_VALUE;
+
+    int commentNest = 0;
+    int lineCount = 1;
+%}
+
+%{
     public int getChar() {
-	return yychar + 1;
+	    return yychar + 1;
     }
 
     public int getColumn() {
@@ -37,11 +54,11 @@ import smpl.sys.TokenException;
     }
 
     public int getLine() {
-	return yyline + 1;
+	    return yyline + 1;
     }
 
     public String getText() {
-	return yytext();
+	    return yytext();
     }
 %}
 
@@ -62,106 +79,154 @@ alphanum = {alpha}|{num}
 valid = [!$%&*+\-./<-Z\^-z~|]
 digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
+%state STRING COMMENT CHAR HEXA BINARY UNICODE
+
 %%
 
-<YYINITIAL>	{nl}	{
+<YYINITIAL>{
+
+	{nl}	{
                         //skip newline, but reset char counter
 			yychar = 0;
 			}
 
-<YYINITIAL>	{ws}	{/* ignore whitespace */}
+	{ws}	{/* ignore whitespace */}
 
-<YYINITIAL>	{ws}+"+"{ws}+	{return new Symbol(sym.PLUS);}
-<YYINITIAL>	{ws}+"-"{ws}+	{return new Symbol(sym.MINUS);}
-<YYINITIAL>	{ws}+"*"{ws}+	{return new Symbol(sym.MUL);}
-<YYINITIAL>	{ws}+"/"{ws}+	{return new Symbol(sym.DIV);}
-<YYINITIAL>	{ws}+"%"{ws}+	{return new Symbol(sym.MOD);}
-<YYINITIAL>	{ws}+"^"{ws}+	{return new Symbol(sym.EXPT);}
+    "/*"	{ yybegin(COMMENT); commentNest++; }
 
-<YYINITIAL>	{ws}+"&"{ws}+	{return new Symbol(sym.BAND);}
-<YYINITIAL>	{ws}+"|"{ws}+	{return new Symbol(sym.BOR);}
-<YYINITIAL>	{ws}+"~"{ws}+	{return new Symbol(sym.BNOT);}
+	{ws}+"+"{ws}+	{return new Symbol(sym.PLUS);}
+	{ws}+"-"{ws}+	{return new Symbol(sym.MINUS);}
+	{ws}+"*"{ws}+	{return new Symbol(sym.MUL);}
+	{ws}+"/"{ws}+	{return new Symbol(sym.DIV);}
+	{ws}+"%"{ws}+	{return new Symbol(sym.MOD);}
+	{ws}+"^"{ws}+	{return new Symbol(sym.EXPT);}
 
-<YYINITIAL>	{ws}+"="{ws}+	{return new Symbol(sym.EQV);}
-<YYINITIAL>	{ws}+">"{ws}+	{return new Symbol(sym.GRT);}
-<YYINITIAL>	{ws}+"<"{ws}+	{return new Symbol(sym.LST);}
-<YYINITIAL>	{ws}+"<="{ws}+	{return new Symbol(sym.LQT);}
-<YYINITIAL>	{ws}+">="{ws}+	{return new Symbol(sym.GQT);}
-<YYINITIAL>	{ws}+"!="{ws}+	{return new Symbol(sym.NQT);}
+	{ws}+"&"{ws}+	{return new Symbol(sym.BAND);}
+	{ws}+"|"{ws}+	{return new Symbol(sym.BOR);}
+	"~"{ws}+	{return new Symbol(sym.BNOT);}
 
-<YYINITIAL>	{ws}+"and"{ws}+	{return new Symbol(sym.AND);}
-<YYINITIAL>	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
-<YYINITIAL>	{ws}+"not"{ws}+	{return new Symbol(sym.NOT);}
+	{ws}+"="{ws}+	{return new Symbol(sym.EQV);}
+	{ws}+">"{ws}+	{return new Symbol(sym.GRT);}
+	{ws}+"<"{ws}+	{return new Symbol(sym.LST);}
+	{ws}+"<="{ws}+	{return new Symbol(sym.LQT);}
+	{ws}+">="{ws}+	{return new Symbol(sym.GQT);}
+	{ws}+"!="{ws}+	{return new Symbol(sym.NQT);}
 
-<YYINITIAL>	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
+    {ws}+"and"{ws}+	{return new Symbol(sym.AND);}
+	{ws}+"or"{ws}+     {return new Symbol(sym.OR);}
+	"not"{ws}+	{return new Symbol(sym.NOT);}
 
-<YYINITIAL>	 {ws}+":="{ws}+ 	{return new Symbol(sym.ASSIGN);}
+	{ws}+"@"+{ws}+	{return new Symbol(sym.CAT);}
 
-<YYINITIAL>	{ws}+"."{ws}+	{return new Symbol(sym.DOT);}
+	{ws}+":="{ws}+ 	{return new Symbol(sym.ASSIGN);}
 
-<YYINITIAL>	"("	{return new Symbol(sym.LPAREN);}
-<YYINITIAL>	")"	{return new Symbol(sym.RPAREN);}
+	{ws}+"."{ws}+	{return new Symbol(sym.DOT);}
 
-<YYINITIAL>	"["	{return new Symbol(sym.LBRAK);}
-<YYINITIAL>	"]"	{return new Symbol(sym.RBRAK);}
+	"("	{return new Symbol(sym.LPAREN);}
+	")"	{return new Symbol(sym.RPAREN);}
 
-<YYINITIAL>	"{"	{return new Symbol(sym.LBRACE);}
-<YYINITIAL>	"}"	{return new Symbol(sym.RBRACE);}
+	"["	{return new Symbol(sym.LBRAK);}
+    "]"	{return new Symbol(sym.RBRAK);}
 
-<YYINITIAL>	":"	{return new Symbol(sym.COLN);}
+	"{"	{return new Symbol(sym.LBRACE);}
+	"}"	{return new Symbol(sym.RBRACE);}
 
-<YYINITIAL>	"[:"	{return new Symbol(sym.LVEC);}
-<YYINITIAL>	":]"	{return new Symbol(sym.RVEC);}
+	":"	{return new Symbol(sym.COLN);}
+
+	"[:"	{return new Symbol(sym.LVEC);}
+	":]"	{return new Symbol(sym.RVEC);}
 
 
-<YYINITIAL>	","	{return new Symbol(sym.COMMA);}
-<YYINITIAL>	";"	{return new Symbol(sym.SEMI);}
+	","	{return new Symbol(sym.COMMA);}
+	";"	{return new Symbol(sym.SEMI);}
 
-<YYINITIAL>	"proc"	{return new Symbol(sym.PROC);}
-<YYINITIAL>	"lazy"	{return new Symbol(sym.LAZY);}
-<YYINITIAL>	"call"	{return new Symbol(sym.CALL);}
-<YYINITIAL>	"let"	{return new Symbol(sym.LET);}
-<YYINITIAL>	 "def"	{return new Symbol(sym.DEF);}
+	"proc"	{return new Symbol(sym.PROC);}
+	"lazy"	{return new Symbol(sym.LAZY);}
+	"call"	{return new Symbol(sym.CALL);}
+	"let"	{return new Symbol(sym.LET);}
+	 "def"	{return new Symbol(sym.DEF);}
 
-<YYINITIAL>	"if"	{return new Symbol(sym.IF);}
-<YYINITIAL>	"then"	{return new Symbol(sym.THEN);}
-<YYINITIAL>	"else"	{return new Symbol(sym.ELSE);}
+	"if"	{return new Symbol(sym.IF);}
+	"then"	{return new Symbol(sym.THEN);}
+	"else"	{return new Symbol(sym.ELSE);}
 
-//<YYINITIAL>	"case"	{return new Symbol(sym.CASE);}
+	"case"	{return new Symbol(sym.CASE);}
 
-//<YYINITIAL>	"print"	{return new Symbol(sym.PRINT);}
-<YYINITIAL>	"println"	{return new Symbol(sym.PRINTLN);}
+	"print"	{return new Symbol(sym.PRINT);}
+	"println"	{return new Symbol(sym.PRINTLN);}
 
-//<YYINITIAL>	"read"	{return new Symbol(sym.READ);}
-//<YYINITIAL>	"readint"	{return new Symbol(sym.READINT);}
+	"read"	{return new Symbol(sym.READ);}
+	"readint"	{return new Symbol(sym.READINT);}
 
-//<YYINITIAL>	"//"	{return new Symbol(sym.COMNLN);}
-//<YYINITIAL>	"/*"	{return new Symbol(sym.LBCOMN);}
-//<YYINITIAL>	"*/"	{return new Symbol(sym.RBCOMN);}
+//	"//"[^\n\r]	{return new Symbol(sym.COMNLN);}
 
-<YYINITIAL>    -?[0-9]* {return new Symbol(sym.INTEGER, new Integer(yytext()));}
 
-<YYINITIAL>    "#b"[01]+ {return new Symbol(sym.BINARY, yytext());}
+   -?[0-9]* {return new Symbol(sym.INTEGER, new Integer(yytext()));}
 
-<YYINITIAL>    "#x"[a-fA-F0-9]+ {return new Symbol(sym.HEXA, yytext());}
+    -?(({num}+".")|("."{num}+)|({num}+"."{num}+)) {return new Symbol(sym.DOUBLE, new Double(yytext()));}
 
-<YYINITIAL>    -?(({num}+".")|("."{num}+)|({num}+"."{num}+)) {return new Symbol(sym.DOUBLE, new Double(yytext()));}
+   "#t"  {return new Symbol(sym.TRU, yytext());}
+
+   "#f"  {return new Symbol(sym.FALS, yytext());}
+
+   "#e"  {return new Symbol(sym.NIL, yytext());}
+
+  {valid}|{digitvalid}({digitvalid}|#)+  {return new Symbol(sym.VARIABLE, yytext());}
 
 //[ -~] matches all ascii characters in range 32-127
 
-<YYINITIAL>   \"([ -~]|{ws})*\" {return new Symbol(sym.STRING, yytext());}
+    \"   { string.setLength(0); yybegin(STRING); }
 
-<YYINITIAL>   '([ -~]|\\n|\\t|{ws})' {return new Symbol(sym.CHARACTER, yytext());}
+    '       { yybegin(CHAR); }
+    "#b"    { yybegin(BINARY); }
 
-<YYINITIAL>   "#u"[a-fA-F0-9]{4} {return new Symbol(sym.UNICODE, yytext());}
+    "#x"    { yybegin(HEXA); }
 
-<YYINITIAL>   "#t"  {return new Symbol(sym.TRU, yytext());}
+    "#u"    { yybegin(UNICODE); }
+}
 
-<YYINITIAL>   "#f"  {return new Symbol(sym.FALS, yytext());}
+<HEXA>{
+    [a-fA-F0-9]+ {return new Symbol(sym.INTEGER, Integer.parseInt(yytext(),16));}
+}
 
-<YYINITIAL>   "#e"  {return new Symbol(sym.NIL, yytext());}
+<BINARY>{
+    [01]+ {return new Symbol(sym.INTEGER, Integer.parseInt(yytext(),2));}
 
-<YYINITIAL>  {valid}|{digitvalid}({digitvalid}|#)+  {return new Symbol(sym.VARIABLE, yytext());}
+}
+
+<UNICODE>{
+    [a-fA-F0-9]{4} {return new Symbol(sym.CHARACTER, (char) Integer.parseInt(yytext(),16));}
+}
+
+<COMMENT>{
+    "/*"    { commentNest++; }
+    "*/"	{ commentNest--; if(commentNest == 0) yybegin(YYINITIAL);}
+    {nl}    { lineCount++; }
+    .       {}
+}
+
+<CHAR>{
+    '               { yybegin(YYINITIAL); return symbol(sym.CHARACTER, ch);}
+    [^\n\r\"\\]     { ch = yytext().charAt(0); }
+
+    \\t              { ch = '\t';}
+
+    \\n              { ch = '\n'; }
+
+    \\              { ch = '\\'; }
+
+
+}
+
+<STRING> {
+      \"                             { yybegin(YYINITIAL);
+                                       return symbol(sym.STRING, string.toString()); }
+      [^\n\r\"\\]+                   { string.append( yytext() ); }
+      \\t                            { string.append('\t'); }
+      \\n                            { string.append('\n'); }
+      \\                             { string.append('\\'); }
+
+    }
 
 <YYINITIAL>    .        {
                // get here only if symbol has no matching rule

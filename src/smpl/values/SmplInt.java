@@ -193,7 +193,7 @@ public class SmplInt extends SmplObj {
     }
 
     @Override
-    public SmplObj notBits() throws SmplException {
+    public SmplObj notBits() {
         return new SmplInt(~ value());
     }
 

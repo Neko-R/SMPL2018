@@ -168,6 +168,7 @@ public class SmplRepl {
                     String line = scanner.readLine();
                     while (line != null && !line.equals(".")) {
                         input.append(line);
+                        input.append("\n");
                         line = scanner.readLine();
                     }
                     if (input.toString().equals("")) {

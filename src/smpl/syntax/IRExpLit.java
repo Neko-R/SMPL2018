@@ -37,20 +37,11 @@ public class IRExpLit extends IRExp {
     }
 
     public IRExpLit(String s) {
-        val = new SmplString(s.substring(1,s.length()-1));
+        val = new SmplString(s);
     }
 
-    public IRExpLit(String i, String v) {
-        if(i == "c") {
-            //v = v.replaceAll("'\\n'",""+(char)10 );
-            val = new SmplChar(v.charAt(1));
-            //System.out.print((char)10 + v + val);
-        }else if(i == "u")
-            val = new SmplChar((char) Integer.parseInt(v.substring(2),16));
-        else if(i == "b")
-            val = new SmplInt(Integer.parseInt(v.substring(2),2));
-        else if(i == "h")
-            val = new SmplInt(Integer.parseInt(v.substring(2),16));
+    public IRExpLit(Character s) {
+        val = new SmplChar(s);
     }
 
 
