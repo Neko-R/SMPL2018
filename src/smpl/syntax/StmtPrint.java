@@ -40,7 +40,7 @@ public class StmtPrint extends Statement {
 
     @Override
     public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
-	    return  v.visitStmtPrint(this, arg);
+	    return v.visitStmtPrint(this, arg);
     }
 
     @Override

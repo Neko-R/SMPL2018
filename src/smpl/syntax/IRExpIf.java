@@ -5,16 +5,16 @@ import smpl.sys.SmplException;
 
 public class IRExpIf extends IRExp {
     IRExp predicate;
-    Statement thenClause;
-    Statement elseClause;
+    IRExp thenClause;
+    IRExp elseClause;
 
-    public IRExpIf(IRExp p, Statement t, Statement els) {
+    public IRExpIf(IRExp p, IRExp t, IRExp els) {
         predicate = p;
         thenClause = t;
         elseClause = els;
     }
 
-    public IRExpIf(IRExp p, Statement t) {
+    public IRExpIf(IRExp p, IRExp t) {
         predicate = p;
         thenClause = t;
     }
@@ -23,11 +23,11 @@ public class IRExpIf extends IRExp {
 	      return predicate;
     }
 
-    public Statement getThenClause() {
+    public IRExp getThenClause() {
         return thenClause;
     }
 
-    public Statement getElseClause() {
+    public IRExp getElseClause() {
         return elseClause;
     }
 

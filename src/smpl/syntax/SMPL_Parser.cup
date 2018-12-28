@@ -74,11 +74,15 @@ terminal CAT;
 
 // 'if' special form
 terminal IF, THEN, ELSE;
+
 terminal CASE;
+
+terminal FOR;//, WHILE, REPEAT, BREAK, CONTINUE;
+terminal String ICR, DCR;
 
 // special key words
 terminal LET, DEF, PROC, CALL;
-terminal LAZY;
+terminal LAZY, REF;
 
 terminal PRINTLN, PRINT;
 non terminal StmtPrint printStmt;
@@ -112,7 +116,7 @@ non terminal IRExpLet letExp;
 
 non terminal StmtDef defStmt;
 
-non terminal IRExpIf ifExp;
+non terminal IRExp ifExp1, ifExp2;
 
 non terminal IRExpCase caseExp;
 non terminal Clause clause;
@@ -132,15 +136,19 @@ non terminal Binding binding;
 
 non terminal IRExp logicOrExp, logicAndExp, logicNotExp;
 
+non terminal IRExpFor forExp;
+
 non terminal IRExp expression;
 non terminal IRExp arithExp;
 non terminal IRExp term;
 non terminal IRExp factor;
 non terminal IRExp exponent;
-non terminal IRExp unique;
+non terminal IRExp unique, others;
 non terminal empty;
 
 non terminal IRExp relatExp, bitWiseExp, negat;
+
+precedence right THEN, ELSE;
 
 /* Grammar rules */
 
@@ -159,7 +167,6 @@ stmtList ::= stmtList:lst SEMI stmt:s {:
 stmt ::= definition:d {: RESULT = d; :} |
           defStmt: ds {: RESULT = ds; :}|
           printStmt:ps {: RESULT = ps; :}|
-          //COMMBLK:c {: RESULT = null;:}|
 	      expression:e {: RESULT = new StmtExpr(e); :};
 
 definition ::= factor:vlst ASSIGN expression:alst {: RESULT = new StmtDefinition(vlst, alst);:};
@@ -174,13 +181,25 @@ printStmt ::= PRINTLN LPAREN expression:e RPAREN {: RESULT = new StmtPrint(e, "l
 
 /* ----- Add Expressions below here ----- */
 
-expression ::= logicOrExp:e {: RESULT = e; :}|
+expression ::= ifExp1:ifexp {: RESULT = ifexp; :}|
+                ifExp2:ifexp {: RESULT = ifexp; :};
+
+ifExp1 ::= IF logicOrExp:pred THEN ifExp1:thenClause ELSE ifExp1:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :}|
+            others:o {: RESULT = o; :};
+
+ifExp2 ::=  IF logicOrExp:pred THEN expression:thenClause {: RESULT = new IRExpIf(pred, thenClause); :}|
+            IF logicOrExp:pred THEN ifExp1:thenClause ELSE ifExp2:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :};
+
+others ::=    logicOrExp:e {: RESULT = e; :}|
                letExp:ltstmt {: RESULT = ltstmt; :}|
                 LBRACE stmtList:compexplst RBRACE {: RESULT = new IRExpCompExp(compexplst); :}|
                 procExp: procstmt {: RESULT = procstmt; :}|
-                ifExp: ifexp {: RESULT = ifexp; :}|
+                forExp:forexp {: RESULT = forexp; :}|
                 caseExp:caseexp {: RESULT = caseexp; :};
                 /* put other types here */
+
+forExp ::= FOR LPAREN binding:b SEMI relatExp:re SEMI ICR:c RPAREN stmt:body {: RESULT = new IRExpFor(b,re,c,body); :}|
+            FOR LPAREN binding:b SEMI relatExp:re SEMI DCR:c RPAREN stmt:body {: RESULT = new IRExpFor(b,re,c,body); :};
 
 procExp ::= PROC LPAREN paramList:plst RPAREN stmt: body {: RESULT = new IRExpProc(plst, body, "fixed") ; :}|
             PROC LPAREN paramList:plst DOT VARIABLE:prest RPAREN stmt: body {: plst.add("norm",prest); RESULT = new IRExpProc(plst, body, "least") ; :}|
@@ -190,11 +209,11 @@ paramList ::= paramListNE:plst{: RESULT = plst; :}|
                    empty {: RESULT = new ParamLst(); :};
 
 paramListNE ::= paramList:plst COMMA LAZY VARIABLE:pi {: plst.add("lazy", pi); RESULT = plst; :}|
+                paramList:plst COMMA REF VARIABLE:pi {: plst.add("ref", pi); RESULT = plst; :}|
                 paramList:plst COMMA VARIABLE:pi {: plst.add("norm", pi); RESULT = plst; :}|
                  LAZY VARIABLE:p {: RESULT = new ParamLst("lazy", p); :}|
+                 REF VARIABLE:p {: RESULT = new ParamLst("ref", p); :}|
                  VARIABLE:p {: RESULT = new ParamLst("norm", p); :};
-
-ifExp ::= IF logicOrExp:pred THEN stmt:thenClause ELSE stmt:elseClause {: RESULT = new IRExpIf(pred,thenClause, elseClause); :};
 
 caseExp ::= CASE LBRACE clauseLst:clst COMMA ELSE COLN stmt:e RBRACE {: RESULT = new IRExpCase(clst,new ExprStmt(e)); :}|
             CASE LBRACE clauseLst:clst RBRACE {: RESULT = new IRExpCase(clst); :};
@@ -270,7 +289,7 @@ factor ::= INTEGER:ilit {: RESULT = new IRExpLit(ilit); :} |
 	   callProc:call {: RESULT = call; :};
 
 unique ::=  LVEC specLst:slst RVEC {: RESULT = new IRExpVector(slst); :}|
-            factor:v LBRAK factor:n RBRAK {: RESULT = new IRExpGetIndex(v, n);:};//|
+            factor:v LBRAK expression:n RBRAK {: RESULT = new IRExpGetIndex(v, n);:};//|
             //factor:v LBRAK factor:n RBRAK ASSIGN expression:e {: RESULT = new IRExpGetIndex(v, n, e);:};
 
 specLst ::= specLst:slst COMMA spec:sp {: slst.add(sp); RESULT = slst; :}|

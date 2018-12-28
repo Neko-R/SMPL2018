@@ -144,9 +144,18 @@ digitvalid = [!$%&*+\-./-9<-Z\^-z~|]
 
 	"proc"	{return new Symbol(sym.PROC);}
 	"lazy"	{return new Symbol(sym.LAZY);}
+	"ref"	{return new Symbol(sym.REF);}
 	"call"	{return new Symbol(sym.CALL);}
 	"let"	{return new Symbol(sym.LET);}
 	 "def"	{return new Symbol(sym.DEF);}
+
+	 "for"	{return new Symbol(sym.FOR);}
+	 "++"	{return new Symbol(sym.ICR, yytext());}
+	 "--"	{return new Symbol(sym.DCR, yytext());}
+//	 "while"	{return new Symbol(sym.WHILE);}
+//	 "repeat"	{return new Symbol(sym.REPEAT);}
+//	 "break"	{return new Symbol(sym.BREAK);}
+//	 "continue"	{return new Symbol(sym.CONTINUE);}
 
 	"if"	{return new Symbol(sym.IF);}
 	"then"	{return new Symbol(sym.THEN);}

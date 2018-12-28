@@ -38,7 +38,9 @@ public class StmtSequence extends Statement {
 
 	String result = "";
 	while (iter.hasNext()) {
-	    result = result + iter.next().toString() + "\n";
+	    result = result + iter.next().toString();
+	    if(iter.hasNext())
+	        result+="; ";
 	}
 
 	return result;

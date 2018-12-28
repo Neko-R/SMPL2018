@@ -58,9 +58,8 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     }
 
     @Override
-    public SmplObj visitStmtExpr(StmtExpr s, Environment<SmplObj> arg)
-	throws SmplException {
-	return s.getExp().visit(this, arg);
+    public SmplObj visitStmtExpr(StmtExpr s, Environment<SmplObj> arg) throws SmplException {
+        return s.getExp().visit(this, arg);
     }
 
     @Override
@@ -85,17 +84,26 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     }
 
     public SmplObj visitStmtDefinition(StmtDefinition sd, Environment<SmplObj> arg) throws SmplException {
-        Environment<SmplObj> env = (Environment<SmplObj>) arg;
+        Environment<SmplObj> env = arg;
 
         IRExp var = sd.getVar();
-        SmplObj result = sd.getExp().visit(this,arg);
-        if (var instanceof IRExpVar)
+        SmplObj result = sd.getExp().visit(this,env);
+        if(var.visit(this,env) instanceof SmplAlias){
+            SmplAlias temp = (SmplAlias) var.visit(this,env);
+            Environment<SmplObj> tempEnv = temp.getEnv();
+            tempEnv.put(temp.getLocation(), result);
+        } else if (var instanceof IRExpVar)
             env.put(((IRExpVar) var).getVar(), result);
         else if (var instanceof IRExpGetIndex) {
-            SmplObj vector = ((IRExpGetIndex) var).getVector().visit(this, arg);
-            SmplObj n = ((IRExpGetIndex) var).getN().visit(this, arg);
-            ((SmplVector) vector).getArray().remove(((SmplInt) n).value());
-            ((SmplVector) vector).getArray().add((((SmplInt) n).value()), result);
+            SmplObj vector = ((IRExpGetIndex) var).getVector().visit(this, env);
+            SmplObj n = ((IRExpGetIndex) var).getN().visit(this, env);
+            if(vector instanceof SmplAlias){
+                ((SmplVector) env.get(((SmplAlias) vector).getLocation()) ).getArray().remove(((SmplInt) n).value());
+                ((SmplVector) env.get(((SmplAlias) vector).getLocation()) ).getArray().add((((SmplInt) n).value()), result);
+            }else {
+                ((SmplVector) vector).getArray().remove(((SmplInt) n).value());
+                ((SmplVector) vector).getArray().add((((SmplInt) n).value()), result);
+            }
         }
 
         /*Environment<SmplObj> env = (Environment<SmplObj>) arg;
@@ -118,7 +126,7 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         }
         */
 
-        return null;
+        return result;
     }
 
     @Override
@@ -197,7 +205,8 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
             result = ((SmplPromise) val).getValue();
                 //System.out.println("true " + result);
             //}
-        }
+        }//(val instanceof SmplAlias)
+                // = arg.get(((SmplAlias)val).getLocation());
         return result;
     }
 
@@ -351,8 +360,8 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     public SmplObj visitIRExpIf(IRExpIf stmt, Environment<SmplObj> arg) throws SmplException {
 
         IRExp predicate = stmt.getPredicate();
-        Statement thenClause = stmt.getThenClause();
-        Statement elseClause = stmt.getElseClause();
+        IRExp thenClause = stmt.getThenClause();
+        IRExp elseClause = stmt.getElseClause();
 
         SmplObj pred = predicate.visit(this, arg);
         SmplObj result = SmplObj.DEFAULT;
@@ -391,9 +400,35 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         Environment newEnv = new Environment(arg);
         SmplObj val = stmt.getExp().visit(this, newEnv);
 
-        env.put(id, val);
+        arg.put(id, val);
 
         return val;
+    }
+
+    @Override
+    public SmplObj visitIRExpFor(IRExpFor exp, Environment<SmplObj> arg) throws SmplException {
+        IRExp bound = exp.getBound();
+        Statement body = exp.getBody();
+
+        String var = exp.getBind().getVar();
+        SmplObj start = exp.getBind().getValExp().visit(this,arg);
+        Environment<SmplObj> newEnv = new Environment(new String[] {var}, new SmplObj[] {start}, arg);
+        int s = ((SmplInt) start).value();
+        SmplObj result = SmplObj.DEFAULT;
+        if(exp.getType().equals("++")){
+            while( ((SmplBool)bound.visit(this,newEnv)).val() ){
+                result = body.visit(this, newEnv);
+                s+=1;
+                newEnv.put(var,new SmplInt(s));
+            }
+        }else{
+            while( ((SmplBool)bound.visit(this,newEnv)).val() ){
+                result = body.visit(this, newEnv);
+                s-=1;
+                newEnv.put(var, new SmplInt(s));
+            }
+        }
+        return result;
     }
 
     @Override
@@ -429,8 +464,15 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
                 if(p.getModifier() == "norm"){
                     val = a.visit(this, args);
+                    if((a instanceof IRExpVar) && (val instanceof SmplVector))
+                        val = new SmplAlias(((IRExpVar)a).getVar(),args);
                 }else if (p.getModifier() == "lazy"){
                     val = new SmplPromise(a,args);
+                }else if (p.getModifier() == "ref"){
+                    if(a instanceof IRExpVar)
+                        val = new SmplAlias(((IRExpVar)a).getVar(),args);
+                    else
+                        val = a.visit(this,args);
                 }
 
                 env.put(p.getId(),val);
@@ -445,8 +487,15 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
 
                 if(p.getModifier() == "norm"){
                     val = a.visit(this, args);
+                    if((a instanceof IRExpVar) && (val instanceof SmplVector))
+                        val = new SmplAlias(((IRExpVar)a).getVar(),args);
                 }else if (p.getModifier() == "lazy"){
                     val = new SmplPromise(a,args);
+                }else if (p.getModifier() == "ref"){
+                    if(a instanceof IRExpVar)
+                        val = new SmplAlias(((IRExpVar)a).getVar(),args);
+                    else
+                        val = a.visit(this,args);
                 }
 
                 env.put(p.getId(),val);
@@ -554,8 +603,8 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
         if(stmt.getType() == "Line")
             System.out.println(stmt.getExp().visit(this, arg) + "\n");
         else
-            System.out.println(stmt.getExp().visit(this, arg) + " ");
-        return null;
+            System.out.print(stmt.getExp().visit(this, arg) + " ");
+        return stmt.getExp().visit(this, arg);
     }
 
     @Override
@@ -662,13 +711,21 @@ public class SmplEval implements Visitor<Environment<SmplObj>, SmplObj> {
     public SmplObj visitIRExpGetIndex(IRExpGetIndex exp, Environment<SmplObj> args) throws SmplException {
         SmplObj vector = exp.getVector().visit(this, args);
         SmplObj n = exp.getN().visit(this, args);
-        return ((SmplVector) vector).getArray().get(((SmplInt) n).value());
+        if(vector instanceof SmplAlias) {
+            SmplAlias temp = (SmplAlias) vector;
+            Environment<SmplObj> env = temp.getEnv();
+            return ((SmplVector) env.get(temp.getLocation())).getArray().get(((SmplInt) n).value());
+        }else
+            return ((SmplVector) vector).getArray().get(((SmplInt) n).value());
     }
 
     @Override
     public SmplObj visitIRExpGetSize(IRExpGetSize exp, Environment<SmplObj> arg) throws SmplException{
-        SmplVector vector = (SmplVector) arg.get(exp.getVec());
-        return vector.size();
+        SmplObj vector = arg.get(exp.getVec());
+        if(vector instanceof SmplAlias)
+            return ((SmplAlias) vector).getEnv().get(((SmplAlias) vector).getLocation()).size();
+        else
+            return vector.size();
 
     }
 

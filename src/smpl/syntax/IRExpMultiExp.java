@@ -32,7 +32,9 @@ public class IRExpMultiExp extends IRExp {
 
         String result = "( ";
         while (iter.hasNext()) {
-            result = result + iter.next().toString() + ", ";
+            result = result + iter.next().toString();
+            if(iter.hasNext())
+                result+=", ";
         }
         result = result + " )";
         return result;

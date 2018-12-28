@@ -14,7 +14,7 @@ public class SmplObj {
     
 
     public enum Type {
-        NONE("No Value"), INT("Int"), REAL("Real"), BOOLEAN("Boolean"), PROMISE("Promise"),
+        NONE("No Value"), INT("Int"), REAL("Real"), BOOLEAN("Boolean"), PROMISE("Promise"), ALIAS("Alias"),
         CHAR("Char"), STRING("String"), PAIR("Pair"), LIST("List"), TUPLE("Tuple"), PROC("Proc"), VECTOR("Vector");
         
         String name;

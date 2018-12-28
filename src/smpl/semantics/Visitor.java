@@ -167,6 +167,8 @@ public interface Visitor<S, T> {
 
     public T visitIRExpIf(IRExpIf exp, S state) throws SmplException;
 
+    public T visitIRExpFor(IRExpFor exp, S state) throws SmplException;
+
     public T visitIRExpCase(IRExpCase exp, S state) throws SmplException;
 
     public T visitStmtDef(StmtDef stmt, S state) throws SmplException;

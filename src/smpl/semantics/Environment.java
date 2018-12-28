@@ -206,6 +206,13 @@ public class Environment<T> {
 	frame.put(id, value);
     }
 
+    public void putChange(String id, T value) {
+        if (parent != null)
+            parent.putChange(id, value);
+        else
+            frame.put(id, value);
+    }
+
     /**
      * Return the int associated with the given identifier.
      *
